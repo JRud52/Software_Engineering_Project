@@ -12,4 +12,4 @@ We should maintain a folder structure similar to this:
     lib -> for any external libraries that we use
 ```
 
-I would suggest that we use https://www.jetbrains.com/rider/ for the C# IDE so that it is cross platform. 
+I would suggest that we use visual studio community 2017 for this: https://www.visualstudio.com/vs/visual-studio-2017-rc/
