@@ -1,4 +1,4 @@
 # Software_Engineering_Project
 Software Engineering Project 2017  
 
-download this - http://www.wxwidgets.org
+Going to use C#, so GUI is pretty easy. 
