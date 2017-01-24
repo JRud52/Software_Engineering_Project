@@ -1,0 +1,5 @@
+/home/JRud52/Projects/School/Software_Engineering_Project/obj/Debug/.NETFramework,Version=v4.5.AssemblyAttribute.cs
+/home/JRud52/Projects/School/Software_Engineering_Project/bin/Debug/SoftwareEngineeringProject.exe.mdb
+/home/JRud52/Projects/School/Software_Engineering_Project/bin/Debug/SoftwareEngineeringProject.exe
+/home/JRud52/Projects/School/Software_Engineering_Project/obj/Debug/SoftwareEngineeringProject.exe
+/home/JRud52/Projects/School/Software_Engineering_Project/obj/Debug/SoftwareEngineeringProject.exe.mdb
