@@ -26,5 +26,12 @@ namespace Software_Engineering_Project.Controllers
 
             return View();
         }
+
+        public ActionResult Login()
+        {
+            ViewBag.Message = "Login Page";
+
+            return View();
+        }
     }
 }
