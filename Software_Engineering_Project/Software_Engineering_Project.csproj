@@ -146,6 +146,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Bookings.cs" />
+    <Compile Include="Models\Calendar.cs" />
     <Compile Include="Models\Descriptors.cs" />
     <Compile Include="Models\Rooms.cs" />
     <Compile Include="Models\Users.cs" />
