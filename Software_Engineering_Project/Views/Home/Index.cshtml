@@ -2,29 +2,59 @@
     ViewBag.Title = "Home Page";
 }
 
-<div class="jumbotron">
-    <h1>Welcome to the Algoma University Room Booking System</h1>
-</div>
 
 <div class="row">
-    <div class="col-md-6">
-        <div class="card">
-            <img class="card-img-top" src="http://placehold.it/500x150" alt="View Bookings Image">
-            <div class="card-block">
-                <h4 class="card-title">View Bookings</h4>
-                <p class="card-text">Viewing the booked rooms does not require login.</p>
-            </div>
+    <div class="col-md-5">
+        <h2>Current Bookings</h2>
+        <p>booking</p>
+        <p>booking</p>
+        <p>booking</p>
+        <p>booking</p>
+        <p>booking</p>
+        <p>booking</p>
+        <h2>Previous Bookings</h2>
+        <p>booking</p>
+        <p>booking</p>
+        <p>booking</p>
+        <p>booking</p>
+        <p>booking</p>
+    </div>
 
-            @ViewHelpers.RenderCalendar(31)
-        </div>
+    <div class="col-md-7">
+        @Html.Partial("Calendar")
     </div>
-    <div class="col-md-6">
-        <div class="card">
-            <img class="card-img-top" src="http://placehold.it/500x150" alt="Book a Room Image">
-            <div class="card-block">
-                <h4 class="card-title">Book a Room</h4>
-                <p class="card-text">Login and book a room now.</p>
+
+        
+    </div>
+
+    
+
+    <!--
+
+    <div class="jumbotron">
+        <h1>Welcome to the Algoma University Room Booking System</h1>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <img class="card-img-top" src="http://placehold.it/500x150" alt="View Bookings Image">
+                <div class="card-block">
+                    <h4 class="card-title">View Bookings</h4>
+                    <p class="card-text">Viewing the booked rooms does not require login.</p>
+                </div>
+
+
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <img class="card-img-top" src="http://placehold.it/500x150" alt="Book a Room Image">
+                <div class="card-block">
+                    <h4 class="card-title">Book a Room</h4>
+                    <p class="card-text">Login and book a room now.</p>
+                </div>
             </div>
         </div>
     </div>
-</div>
+        -->
