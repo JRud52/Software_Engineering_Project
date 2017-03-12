@@ -2,23 +2,39 @@
 {
     <div class="container">
         <div class="row">
-        @for (int i = 0; i < size; i++)
-        {                            
-                <div class="col-md-1">
-                    <div class="well well-sm">
-                        <img src="http://placehold.it/150x150" />
-                    </div>
+            
+            @for(int i = 0; i < size / 7; i++) { 
+                <div class="col-md-4">
+                    @for (int j = 0; j < 3 && i * 7 + j < size; j++)
+                    {
+                        if (j == 0)
+                        {
+                            <div class="col-md-4"></div>
+                        }
+                        else
+                        {
+                            <div class="col-md-4">
+                                <div style="background:black; height: 50px"></div>
+                            </div>               
+                        }
+                    }
                 </div>
-
-            @if (i % 7 == 0 && i != 0)
-            {               
+                <div class="col-md-8">
+                    @for (int j = 0; j < 6 && i * 7 + j < size; j++)
+                    {
+                        if (i * 7 + j == size - 1 || j == 5)
+                        {
+                            <div class="col-md-2"></div>
+                        }
+                        else
+                        {
+                            <div class="col-md-2">
+                                <div style="background:black; height: 50px"></div>
+                            </div>
+                        }
+                    }
                 </div>
-
-                @if(i != size - 1) { 
-                    <div class="row">
-                }
             }
-        }
-    
+        </div>
     </div>
 }
