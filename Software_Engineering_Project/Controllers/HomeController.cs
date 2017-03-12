@@ -13,14 +13,14 @@ namespace Software_Engineering_Project.Controllers
             return View();
         }
 
-        public ActionResult About()
+        public ActionResult ViewBookings()
         {
             //ViewBag.Message = "Your application description page.";
 
             return View();
         }
 
-        public ActionResult Contact()
+        public ActionResult BookRoom()
         {
             //ViewBag.Message = "Your contact page.";
 
@@ -30,9 +30,14 @@ namespace Software_Engineering_Project.Controllers
         [HttpPost]
         public ActionResult LogOn(Models.Users user)
         {
-        
             // show the passed data in a seperate page.
             return Content("Username " + user.email + " <br/>Password: " + user.hash); //View(user);
+        }
+
+        [HttpPost]
+        public ActionResult QueryRoom(Models.Rooms room)
+        {            
+            return Content(""); 
         }
     }
 }
