@@ -1,0 +1,11 @@
+﻿@model Software_Engineering_Project.Models.Users
+@{
+    using (Html.BeginForm("LogOn", "Home", FormMethod.Post))
+    {
+        @Html.TextBoxFor(m => m.email, new { @type = "email", @class="form-control", @id="user-email", @placeholder="Email" })
+        <br/>
+        @Html.TextBoxFor(m => m.hash, new { @type = "password", @class = "form-control", @id = "user-pass", @placeholder = "Password" })
+        <br/>
+        <input type="submit" class="btn btn-primary" value="Login" />
+    }
+}

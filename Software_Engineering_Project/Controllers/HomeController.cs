@@ -15,23 +15,24 @@ namespace Software_Engineering_Project.Controllers
 
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
+            //ViewBag.Message = "Your application description page.";
 
             return View();
         }
 
         public ActionResult Contact()
         {
-            ViewBag.Message = "Your contact page.";
+            //ViewBag.Message = "Your contact page.";
 
             return View();
         }
 
-        public ActionResult Login()
+        [HttpPost]
+        public ActionResult LogOn(Models.Users user)
         {
-            ViewBag.Message = "Login Page";
-
-            return View();
+        
+            // show the passed data in a seperate page.
+            return Content("Username " + user.email + " <br/>Password: " + user.hash); //View(user);
         }
     }
 }
