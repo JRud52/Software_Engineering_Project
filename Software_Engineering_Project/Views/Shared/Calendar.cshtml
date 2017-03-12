@@ -7,26 +7,49 @@
     </div>    
 </div>
 
-@{ System.DateTime currDay = new System.DateTime(Model.date.Year, Model.date.Month, 1); }
+@{ 
+    System.DateTime currDay = new System.DateTime(Model.date.Year, Model.date.Month, 1);
+    System.DateTime lastDay = currDay.AddMonths(1).AddDays(-1);
+    bool started = false;
+    int i = 0;
+    bool end = false;
+}
 
-@for (int i = 0; i < 5; i++)
+
+@while (!end)
 {
-
-
+    
     <div class="row">
         <div class="col-md-4">
             <div class="row">
                 <div class="col-md-4"></div> <!-- this column empty -->
 
-                @for(int j = 1; j <= 2; j++) { 
-                    <div class="col-md-4"> 
-                        @String.Format("{0:ddd}", currDay.DayOfWeek.ToString().Substring(0, 3))
-                        @{ currDay = currDay.AddDays(1); }
+                @{ int j; }
+                @for (j = 1; j < 3 && !end; j++)
+                {
+                    if (!started && (int)currDay.DayOfWeek != 7 * i + j - 1)
+                    {
+                        <div class="col-md-4"></div>
+                    }
+                    else
+                    {
+                        started = true;                        
+                        <div class="col-md-4"> 
+                            @String.Format("{0:ddd}", currDay.DayOfWeek.ToString().Substring(0, 3))                            
 
-                        <br />
+                            <br />
 
-                        @(7 * i + j)                 
-                    </div>
+                            @currDay.Day                 
+                            @{ 
+                                currDay = currDay.AddDays(1);
+
+                                if(currDay.Month > lastDay.Month)
+                                {
+                                    end = true;
+                                }
+                            }
+                        </div>
+                    }
                 }
 
             </div>
@@ -35,32 +58,37 @@
         <div class="col-md-8">
             <div class="row">
 
-                @for (int j = 3; j <= 8; j++)
-                {
-                    if (j != 8)
+                @for (; j < 8 && !end; j++)
+                {                    
+                    if (!started && (int)currDay.DayOfWeek != 7 * i + j - 1)
                     {
-                        if (7 * i + j > 31)
-                        {
-                            <div class="col-md-2"></div><!-- this column empty -->
-                        }
-                        else
-                        {
-                            <div class="col-md-2">
-                                @String.Format("{0:ddd}", currDay.DayOfWeek.ToString().Substring(0, 3))
-                                @{ currDay = currDay.AddDays(1); }
-
-                                <br />
-
-                                @(7 * i + j)
-                            </div>
-                        }
+                        <div class="col-md-2"></div><!-- this column empty -->
                     }
                     else
                     {
-                        <div class="col-md-2"></div> <!-- this column empty -->
-                    }                       
+                        started = true;
+                        <div class="col-md-2">
+                            @String.Format("{0:ddd}", currDay.DayOfWeek.ToString().Substring(0, 3))                            
+
+                            <br />
+
+                            @currDay.Day
+                            @{ 
+                                currDay = currDay.AddDays(1);
+
+                                if (currDay.Month > lastDay.Month)
+                                {
+                                    end = true;
+                                }
+                            }
+                        </div>
+                    }                                                          
                 }
+
+                <div class="col-md-2"></div> <!-- this column empty -->
             </div>
         </div>
     </div>
+  
+    i++; 
 }
