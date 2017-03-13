@@ -55,7 +55,7 @@ namespace Software_Engineering_Project.Controllers
         }
 
         [HttpPost]
-        public ActionResult LogOn(Models.Users user)
+        public ActionResult Login(Models.Users user)
         {
             System.Diagnostics.Debug.WriteLine("started connection");
             //ConnectionStringSettings settings = ConfigurationManager.ConnectionStrings["soft_database"];

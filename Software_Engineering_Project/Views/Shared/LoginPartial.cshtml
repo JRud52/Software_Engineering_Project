@@ -1,6 +1,9 @@
 ﻿@model Software_Engineering_Project.Models.Users
+
+<h3>Login To Book</h3>
+
 @{
-    using (Html.BeginForm("LogOn", "Home", FormMethod.Post))
+    using (Html.BeginForm("Login", "Home", FormMethod.Post))
     {
         @Html.TextBoxFor(m => m.email, new { @type = "email", @class="form-control", @id="user-email", @placeholder="Email" })
         <br/>
