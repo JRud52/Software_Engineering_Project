@@ -1,137 +1,96 @@
 ﻿@model Software_Engineering_Project.Models.Calendar
 <div id="calendar">
     <div class="row">
-        <div class="col-md-1"></div>
-        <div class="col-md-10 text-center">
-            <div class="row">
-                <div class="col-md-4 text-right">
-                    <h3>                       
-                        @Ajax.ActionLink(
-                            "<",
-                            "UpdateCalendar",
-                            new {requestedDate = Model.date.AddMonths(-1)},
-                            new AjaxOptions
-                            {
-                                HttpMethod = "GET",
-                                InsertionMode = InsertionMode.Replace,
-                                UpdateTargetId = "calendar",
-                                OnComplete = null
-                            }
-                        )
-                        <a href="#">
-                            <span class="glyphicon glyphicon-chevron-left"></span>
-                        </a>
-                    </h3>
-                </div>
-                <div class="col-md-4">
-                    <h3>@String.Format("{0:MMMM}", Model.date)</h3>
-                </div>
-                <div class="col-md-4 text-left">
-                    <h3>
-                        <a href="#">
-                            <span class="glyphicon glyphicon-chevron-right"></span>
-                        </a>
-                        @Ajax.ActionLink(
-                            ">",
-                            "UpdateCalendar",
-                            new { requestedDate = Model.date.AddMonths(1) },
-                            new AjaxOptions
-                            {
-                                HttpMethod = "GET",
-                                InsertionMode = InsertionMode.Replace,
-                                UpdateTargetId = "calendar",
-                                OnComplete = null
-                            }
-                        )
-                    </h3>
-                </div>
-            </div>
+        <div class="col-md-3 text-right">
+            <h3>
+                @Ajax.ActionLink(
+                    "<",
+                    "UpdateCalendar",                            
+                    new { currentCalendarDate = Model.date, next = false},
+                    new AjaxOptions {
+                        HttpMethod = "GET",
+                        InsertionMode = InsertionMode.Replace,
+                        UpdateTargetId = "calendar",
+                        OnComplete = null
+                    }
+                )
+            </h3>
         </div>
-        <div class="col-md-1"></div>
+        <div class="col-md-6 text-center">
+            <h3>@String.Format("{0:MMMM yyyy}", Model.date, Model.date.Year)</h3>
+        </div>
+        <div class="col-md-3 text-left">
+            <h3>
+                @Ajax.ActionLink(
+                    ">",
+                    "UpdateCalendar",                            
+                    new { currentCalendarDate = Model.date, next = true },
+                    new AjaxOptions {
+                        HttpMethod = "GET",
+                        InsertionMode = InsertionMode.Replace,
+                        UpdateTargetId = "calendar",
+                        OnComplete = null
+                    }
+                )
+            </h3>
+        </div>                    
     </div>
 
     @{
         System.DateTime currDay = new System.DateTime(Model.date.Year, Model.date.Month, 1);
-        System.DateTime lastDay = currDay.AddMonths(1).AddDays(-1);
+        System.DateTime lastDay;
+
+        if (currDay.Month == 12)
+        {
+            lastDay = new System.DateTime(Model.date.Year, Model.date.Month, 31);
+            System.Diagnostics.Debug.WriteLine("Last day = " + lastDay);
+        }
+        else
+        {
+            lastDay = currDay.AddMonths(1).AddDays(-1);
+        }
+
         bool started = false;
-        int i = 0;
+        int i = 0, j = 1;
         bool end = false;
     }
 
 
-    @while (!end)
-    {
+    @while (!end) {
 
-        <div class="row">
-            <div class="col-md-4">
-                <div class="row">
-                    <div class="col-md-4"></div> <!-- this column empty -->
-
-                    @for (int j = 1; j < 3 && !end; j++)
-                    {
-                        if (!started && (int)currDay.DayOfWeek != 7 * i + j - 1)
-                        {
-                            <div class="col-md-4"></div>
-                        }
-                        else
-                        {
-                            started = true;
-                            <div class="col-md-4 table-bordered">
-                                @String.Format("{0:ddd}", currDay.DayOfWeek.ToString().Substring(0, 3))
-
-                                <br />
-
-                                @currDay.Day
-                                @{
-                                    currDay = currDay.AddDays(1);
-
-                                    if (currDay.Month > lastDay.Month)
-                                    {
-                                        end = true;
-                                    }
-                                }
-                            </div>
-                                        }
-                                    }
-
-                </div>
-            </div>
-
-            <div class="col-md-8">
-                <div class="row">
-
-                    @for (int j = 3; j < 8 && !end; j++)
+        <div class="row seven-cols">
+            @for (j = 1; j < 8 && !end; j++) 
+            {
+                if (!started && (int)currDay.DayOfWeek != 7 * i + j - 1) 
                 {
-                    if (!started && (int)currDay.DayOfWeek != 7 * i + j - 1)
-                    {
-                            <div class="col-md-2"></div><!-- this column empty -->
+                    <div class="col-md-1 table-bordered calendar-day"></div>
+                }
+                else 
+                {
+                    started = true;
+                    <div class="col-md-1 table-bordered calendar-day">
+                        @String.Format("{0:ddd}", currDay.DayOfWeek.ToString().Substring(0, 3))
+             
+
+                        @currDay.Day
+
+                        @{                            
+                            currDay = currDay.AddDays(1);
+                            if (currDay.Month > lastDay.Month || currDay.Year > lastDay.Year)
+                            {
+                                end = true;
+                            }
                         }
-                        else
-                        {
-                            started = true;
-                            <div class="col-md-2 table-bordered">
-                                @String.Format("{0:ddd}", currDay.DayOfWeek.ToString().Substring(0, 3))
+                    </div>
+                }
+            }
 
-                                <br />
+            @for (; j < 8; j++) {
+                <div class="col-md-1 table-bordered calendar-day"></div>
+            }
 
-                                @currDay.Day
-                                @{
-                                    currDay = currDay.AddDays(1);
-
-                                    if (currDay.Month > lastDay.Month)
-                                    {
-                                        end = true;
-                                    }
-                                }
-                            </div>
-                                        }
-                                    }
-
-                    <div class="col-md-2"></div> <!-- this column empty -->
-                </div>
-            </div>
         </div>
 
-                                        i++;
-                                    }
+        i++;
+    }    
 </div>
