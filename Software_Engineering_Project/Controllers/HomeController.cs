@@ -14,12 +14,19 @@ namespace Software_Engineering_Project.Controllers
     {
         public ActionResult Index()
         {
+            ViewData["date"] = System.DateTime.Now;
             return View();
+        }
+
+        public PartialViewResult UpdateCalendar() {
+            System.Diagnostics.Debug.WriteLine("Date = " + ViewData["date"]);
+            
+            return PartialView("Calendar", new Software_Engineering_Project.Models.Calendar() { date = System.DateTime.Now.AddMonths(1) });
         }
 
         public ActionResult ViewBookings()
         {
-            //ViewBag.Message = "Your application description page.";
+            ViewData["date"] = System.DateTime.Now;
 
             return View();
         }
@@ -108,7 +115,7 @@ namespace Software_Engineering_Project.Controllers
                          System.Diagnostics.Debug.WriteLine("No connection string");
                  }
 
-         */
+                */
 
 
                 // show the passed data in a seperate page.

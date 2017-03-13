@@ -21,7 +21,7 @@
     </div>
 
     <div class="col-md-7">
-        @Html.Partial("Calendar", new Software_Engineering_Project.Models.Calendar() { date = System.DateTime.Now })
+        @Html.Partial("Calendar", new Software_Engineering_Project.Models.Calendar() { date = (System.DateTime)ViewData["date"] })
     </div>
         
 </div>
