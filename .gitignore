@@ -5,6 +5,8 @@
 *.sln.docstates
 *.psd
 
+Software_Engineering_Project/Web.config
+
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 

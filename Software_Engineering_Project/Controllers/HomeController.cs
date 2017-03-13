@@ -64,7 +64,8 @@ namespace Software_Engineering_Project.Controllers
             //string connectionString = settings.ConnectionString;
 
 
-            //string connectionString = ConfigurationManager.ConnectionStrings["soft_database"].ConnectionString;
+            string connectionString = ConfigurationManager.ConnectionStrings["soft_db"].ConnectionString;
+            /*
             DbConnectionStringBuilder builder = new DbConnectionStringBuilder();
             builder.Add("Server", "tcp:soft-server.database.windows.net,1433");
             builder.Add("Initial Catalog", "soft_db");
@@ -77,6 +78,7 @@ namespace Software_Engineering_Project.Controllers
             builder.Add("Connection Timeout", 30);
 
             string connectionString = builder.ConnectionString;
+            */
 
             string queryString = "SELECT * FROM Users"; // put SELECT commands here
             int paramValue = 5;
