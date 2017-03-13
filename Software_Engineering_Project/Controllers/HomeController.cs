@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using System.Data.SqlClient;
 using System.Data;
 using System.Configuration;
+using System.Data.Common;
 
 namespace Software_Engineering_Project.Controllers
 {
@@ -34,10 +35,25 @@ namespace Software_Engineering_Project.Controllers
         public ActionResult LogOn(Models.Users user)
         {
             System.Diagnostics.Debug.WriteLine("started connection");
-            ConnectionStringSettings settings = ConfigurationManager.ConnectionStrings["soft_database"];
-            if (settings == null)
-                return View(user);
-            string connectionString = settings.ConnectionString;
+            //ConnectionStringSettings settings = ConfigurationManager.ConnectionStrings["soft_database"];
+            //if (settings == null)
+                //return View(user);
+            //string connectionString = settings.ConnectionString;
+
+
+            //string connectionString = ConfigurationManager.ConnectionStrings["soft_database"].ConnectionString;
+            DbConnectionStringBuilder builder = new DbConnectionStringBuilder();
+            builder.Add("Server", "tcp:soft-server.database.windows.net,1433");
+            builder.Add("Initial Catalog", "soft_db");
+            builder.Add("Persist Security Info", false);
+            builder.Add("User ID", "soft_user");
+            builder.Add("Password", "twoMoreThan3");
+            builder.Add("MultipleActiveResultSets", false);
+            builder.Add("Encrypt", true);
+            builder.Add("TrustServerCertificate", false);
+            builder.Add("Connection Timeout", 30);
+
+            string connectionString = builder.ConnectionString;
 
             string queryString = "SELECT * FROM Users"; // put SELECT commands here
             int paramValue = 5;
