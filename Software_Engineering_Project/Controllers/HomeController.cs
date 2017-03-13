@@ -18,10 +18,8 @@ namespace Software_Engineering_Project.Controllers
             return View();
         }
 
-        public PartialViewResult UpdateCalendar() {
-            System.Diagnostics.Debug.WriteLine("Date = " + ViewData["date"]);
-            
-            return PartialView("Calendar", new Software_Engineering_Project.Models.Calendar() { date = System.DateTime.Now.AddMonths(1) });
+        public PartialViewResult UpdateCalendar(System.DateTime requestedDate) {                       
+            return PartialView("Calendar", new Software_Engineering_Project.Models.Calendar() { date = requestedDate });
         }
 
         public ActionResult ViewBookings()
