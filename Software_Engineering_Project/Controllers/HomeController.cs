@@ -7,6 +7,7 @@ using System.Data.SqlClient;
 using System.Data;
 using System.Configuration;
 using System.Data.Common;
+using System.Security.Cryptography;
 
 namespace Software_Engineering_Project.Controllers
 {
@@ -58,31 +59,14 @@ namespace Software_Engineering_Project.Controllers
         public ActionResult Login(Models.Users user)
         {
             System.Diagnostics.Debug.WriteLine("started connection");
-            //ConnectionStringSettings settings = ConfigurationManager.ConnectionStrings["soft_database"];
-            //if (settings == null)
-                //return View(user);
-            //string connectionString = settings.ConnectionString;
+            ConnectionStringSettings settings = ConfigurationManager.ConnectionStrings["soft_db"];
+            if (settings == null)
+                return Content("Something went wrong. Try reloading the page.");
+            string connectionString = settings.ConnectionString;
 
+            //string connectionString = ConfigurationManager.ConnectionStrings["soft_db"].ConnectionString;
 
-            string connectionString = ConfigurationManager.ConnectionStrings["soft_db"].ConnectionString;
-            /*
-            DbConnectionStringBuilder builder = new DbConnectionStringBuilder();
-            builder.Add("Server", "tcp:soft-server.database.windows.net,1433");
-            builder.Add("Initial Catalog", "soft_db");
-            builder.Add("Persist Security Info", false);
-            builder.Add("User ID", "soft_user");
-            builder.Add("Password", "twoMoreThan3");
-            builder.Add("MultipleActiveResultSets", false);
-            builder.Add("Encrypt", true);
-            builder.Add("TrustServerCertificate", false);
-            builder.Add("Connection Timeout", 30);
-
-            string connectionString = builder.ConnectionString;
-            */
-
-            string queryString = "SELECT * FROM Users"; // put SELECT commands here
-            int paramValue = 5;
-            System.Diagnostics.Debug.WriteLine("did the thing");
+            string queryString = "SELECT hash FROM Users WHERE email='" + user.email + "'"; // put SELECT commands here
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -103,11 +87,17 @@ namespace Software_Engineering_Project.Controllers
                     connection.Open();
                     //cmd.ExecuteNonQuery();
                     SqlDataReader reader = command.ExecuteReader();
-                    while (reader.Read())
+                    reader.Read();
+                    if (reader[0].ToString() == user.hash)
                     {
-                        System.Diagnostics.Debug.WriteLine("connected");
-                        System.Diagnostics.Debug.WriteLine("\t{0}\t{1}\t{2}\t{3}\t{4}", reader[0], reader[1], reader[2], reader[3], reader[4]);
+                        return PartialView("Dashboard", user);
                     }
+
+                    //while (reader.Read())
+                    //{
+                        //System.Diagnostics.Debug.WriteLine("connected");
+                        //System.Diagnostics.Debug.WriteLine("\t{0}\t{1}\t{2}\t{3}\t{4}", reader[0], reader[1], reader[2], reader[3], reader[4]);
+                    //}
                     reader.Close();
                 } catch (Exception ex)
                 {
@@ -116,28 +106,8 @@ namespace Software_Engineering_Project.Controllers
                 }
             }
 
-
-                // System.Diagnostics.Debug.WriteLine("");
-                /*
-                 System.Configuration.Configuration rootWebConfig =
-                     System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("/Software_Engineering_Project");
-                 System.Configuration.ConnectionStringSettings connString;
-                 if (rootWebConfig.ConnectionStrings.ConnectionStrings.Count > 0)
-                 {
-                     connString =
-                         rootWebConfig.ConnectionStrings.ConnectionStrings["db"];
-                     if (connString != null)
-                         System.Diagnostics.Debug.WriteLine("Connection string = \"{0}\"",
-                             connString.ConnectionString);
-                     else
-                         System.Diagnostics.Debug.WriteLine("No connection string");
-                 }
-
-                */
-
-
-                // show the passed data in a seperate page.
-                return Content("Username " + user.email + " <br/>Password: " + user.hash); //View(user);
+            // show the passed data in a seperate page.
+            return PartialView("LoginPartial"); //Content("Username " + user.email + " <br/>Password: " + user.hash); //View(user);
         }
 
         [HttpPost]

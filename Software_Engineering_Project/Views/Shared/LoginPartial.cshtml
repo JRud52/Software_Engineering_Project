@@ -1,14 +1,26 @@
 ﻿@model Software_Engineering_Project.Models.Users
+<div id="login-form">
+    <h3>Login To Book</h3>
 
-<h3>Login To Book</h3>
+    @{
+        /*
+                using (Html.BeginForm("Login", "Home", FormMethod.Post))
+                {
+                    @Html.TextBoxFor(m => m.email, new { @type = "email", @class = "form-control", @id = "user-email", @placeholder = "Email" })
+                    <br />
+                    @Html.TextBoxFor(m => m.hash, new { @type = "password", @class = "form-control", @id = "user-pass", @placeholder = "Password" })
+                    <br />
+                    <input type="submit" class="btn btn-primary" value="Login" />
+                }*/
 
-@{
-    using (Html.BeginForm("Login", "Home", FormMethod.Post))
-    {
-        @Html.TextBoxFor(m => m.email, new { @type = "email", @class="form-control", @id="user-email", @placeholder="Email" })
-        <br/>
-        @Html.TextBoxFor(m => m.hash, new { @type = "password", @class = "form-control", @id = "user-pass", @placeholder = "Password" })
-        <br/>
-        <input type="submit" class="btn btn-primary" value="Login" />
+        using (Ajax.BeginForm(new AjaxOptions { HttpMethod = "POST", InsertionMode = InsertionMode.Replace, UpdateTargetId = "login-form", OnComplete = null }))
+        {
+            @Html.TextBoxFor(m => m.email, new { @type = "email", @class = "form-control", @id = "user-email", @placeholder = "Email" })
+            <br />
+            @Html.TextBoxFor(m => m.hash, new { @type = "password", @class = "form-control", @id = "user-pass", @placeholder = "Password" })
+            <br />
+            <input type="submit" class="btn btn-primary" value="Login" />
+        }
+
     }
-}
+</div>
