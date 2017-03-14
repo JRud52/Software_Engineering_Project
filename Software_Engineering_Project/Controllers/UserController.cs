@@ -9,6 +9,7 @@ using System.Configuration;
 using System.Data.Common;
 using System.Security.Cryptography;
 using System.Text;
+using System.Diagnostics;
 
 namespace Software_Engineering_Project.Controllers
 {
@@ -39,16 +40,24 @@ namespace Software_Engineering_Project.Controllers
                     connection.Open();
                     SqlDataReader reader = command.ExecuteReader();
 
-                    //string hash = UTF8Encoding.GetBytes(user.hash);
+                    byte[] bytes = new UTF8Encoding().GetBytes(user.hash);
+                    byte[] hashbytes;
+                    using (var algorithm = new SHA512Managed())
+                    {
+                        hashbytes = algorithm.ComputeHash(bytes);
+                    }
+                    string hash = Convert.ToBase64String(hashbytes);
+
+                    Debug.WriteLine(hash);
 
                     reader.Read();
-                    if (reader[4].ToString() == user.hash)
+                    if (hash == reader[4].ToString())
                     {
                         user.email = reader[1].ToString();
                         user.name = reader[2].ToString();
                         user.privilage = (int)reader[3];
 
-                        if (user.name == "admin")
+                        if (user.name == "admin@admin.com")
                             return PartialView("AdminDashboard", user);
                         else
                             return PartialView("UserDashboard", user);
@@ -57,7 +66,7 @@ namespace Software_Engineering_Project.Controllers
                 }
                 catch (Exception ex)
                 {
-                    System.Diagnostics.Debug.WriteLine(ex.Message);
+                    Debug.WriteLine(ex.Message);
                 }
             }
 

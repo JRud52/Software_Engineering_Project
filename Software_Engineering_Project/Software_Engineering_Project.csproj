@@ -219,7 +219,8 @@
     <Content Include="Views\Shared\Calendar.cshtml" />
     <Content Include="Views\Shared\userEntryLevelDashboard.cshtml" />
     <Content Include="Views\Shared\DropDownLogin.cshtml" />
-    <Content Include="Views\Shared\Dashboard.cshtml" />
+    <Content Include="Views\Shared\UserDashboard.cshtml" />
+    <Content Include="Views\Shared\AdminDashboard.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Code\" />
