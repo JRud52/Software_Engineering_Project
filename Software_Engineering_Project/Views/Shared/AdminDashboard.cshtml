@@ -1,6 +1,7 @@
 ﻿@model Software_Engineering_Project.Models.AdminDashModel
 
 <div>
+
     <h2>Admin Dashboard</h2>
     <h4>Hello @Model.name</h4>
 
@@ -13,13 +14,18 @@
             <th>EMAIL</th>
             <th>NAME</th>
             <th>PRIVILAGE</th>
+            <th>EDIT</th>
         </tr>
+        @{bool x = false;}
         @foreach (var user in Model.users)
         {
             <tr>
                 <td>@user.id</td><td>@user.email</td><td>@user.name</td><td>@user.privilage</td>
+                <td>
+                    <button class="form-control showButton"></button> </td>
             </tr>
         }
+        @{ x = true; }
     </table>
     <br/>
 
