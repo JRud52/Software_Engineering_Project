@@ -57,8 +57,32 @@ namespace Software_Engineering_Project.Controllers
                         user.name = reader[2].ToString();
                         user.privilage = (int)reader[3];
 
-                        if (user.name == "admin@admin.com")
-                            return PartialView("AdminDashboard", user);
+                        if (user.privilage == 3) {
+                            reader.Close();
+
+                            Models.AdminDashModel dash = new Models.AdminDashModel();
+                            dash.id = user.id;
+                            dash.name = user.name;
+                            dash.email = user.email;
+                            dash.privilage = user.privilage;
+                            dash.users = new List<Models.Users>();
+
+                            queryString = "SELECT * FROM Users";
+                            command = new SqlCommand(queryString, connection);
+                            reader = command.ExecuteReader();
+
+                            while (reader.Read())
+                            {
+                                Models.Users tempUser = new Models.Users();
+                                tempUser.id = (int)reader[0];
+                                tempUser.email = (string)reader[1];
+                                tempUser.name = (string)reader[2];
+                                tempUser.privilage = (int)reader[3];
+                                dash.users.Add(tempUser);
+                            }
+
+                            return PartialView("AdminDashboard", dash);
+                        }
                         else
                             return PartialView("UserDashboard", user);
                     }
@@ -72,6 +96,11 @@ namespace Software_Engineering_Project.Controllers
 
             // show the passed data in a seperate page.
             return PartialView("LoginPartial"); //Content("Username " + user.email + " <br/>Password: " + user.hash); //View(user);
+        }
+
+        public ActionResult DashboardUpdate()
+        {
+            return View();
         }
     }
 }

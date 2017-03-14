@@ -1,4 +1,5 @@
-﻿@model Software_Engineering_Project.Models.Users
+﻿@model Software_Engineering_Project.Models.AdminDashModel
+
 <div>
     <h2>Admin Dashboard</h2>
     <h4>Hello @Model.name</h4>
@@ -6,12 +7,20 @@
     <br />
 
     <h5>Users</h5>
-    <p>blah</p>
-    <p>blah</p>
-    <p>blah</p>
-    <p>blah</p>
-    <p>blah</p>
-
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>EMAIL</th>
+            <th>NAME</th>
+            <th>PRIVILAGE</th>
+        </tr>
+        @foreach (var user in Model.users)
+        {
+            <tr>
+                <td>@user.id</td><td>@user.email</td><td>@user.name</td><td>@user.privilage</td>
+            </tr>
+        }
+    </table>
     <br/>
 
     <h5>Rooms</h5>
