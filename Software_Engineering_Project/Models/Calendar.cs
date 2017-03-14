@@ -8,5 +8,6 @@ namespace Software_Engineering_Project.Models
     public class Calendar
     {
         public DateTime date { get; set; }
+        public List<Bookings> bookings { get; set; }
     }
 }

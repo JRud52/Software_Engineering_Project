@@ -84,7 +84,19 @@ namespace Software_Engineering_Project.Controllers
                             return PartialView("AdminDashboard", dash);
                         }
                         else
+                        {
+                            /*
+                            ViewData["left"] = "UserDashboard";
+                            ViewData["left-model"] = user;
+
+                            Models.Calendar cal = new Models.Calendar() { date = System.DateTime.Now };
+                            ViewData["right"] = "Calendar";
+                            ViewData["right-model"] = cal;
+
+                            return View("AppContent");
+                            */
                             return PartialView("UserDashboard", user);
+                        }
                     }
                     reader.Close();
                 }
