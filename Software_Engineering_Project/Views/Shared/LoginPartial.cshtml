@@ -13,7 +13,7 @@
                     <input type="submit" class="btn btn-primary" value="Login" />
                 }*/
 
-        using (Ajax.BeginForm(new AjaxOptions { HttpMethod = "POST", InsertionMode = InsertionMode.Replace, UpdateTargetId = "login-form", OnComplete = null }))
+        using (Ajax.BeginForm("Login", "Home", new AjaxOptions { HttpMethod = "POST", InsertionMode = InsertionMode.Replace, UpdateTargetId = "login-form", OnComplete = null }))
         {
             @Html.TextBoxFor(m => m.email, new { @type = "email", @class = "form-control", @id = "user-email", @placeholder = "Email" })
             <br />
