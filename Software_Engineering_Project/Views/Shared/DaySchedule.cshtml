@@ -1,0 +1,23 @@
+﻿<div id="day-schedule">
+    @{         
+        System.DateTime startTime = new System.DateTime(1, 1, 1, 8, 30, 0);
+    }
+
+    @for (int i = 0; i < 9; i++)
+    {
+        if (i % 2 == 0)
+        {
+            <div class="row text-center" style="background:LightSkyBlue; height:50px;">
+                @startTime.ToString("h:mm tt");
+            </div>
+        }
+        else {
+            <div class="row text-center" style="background:WhiteSmoke; height:50px;">
+                @startTime.ToString("h:mm tt");
+            </div>
+        }
+
+        startTime = startTime.AddHours(1.5);
+    }
+
+</div>
