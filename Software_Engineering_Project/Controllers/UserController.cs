@@ -85,7 +85,7 @@ namespace Software_Engineering_Project.Controllers
                         }
                         else
                         {
-                            /*
+                            
                             ViewData["left"] = "UserDashboard";
                             ViewData["left-model"] = user;
 
@@ -94,8 +94,8 @@ namespace Software_Engineering_Project.Controllers
                             ViewData["right-model"] = cal;
 
                             return View("AppContent");
-                            */
-                            return PartialView("UserDashboard", user);
+                            
+                            //return PartialView("UserDashboard", user);
                         }
                     }
                     reader.Close();
