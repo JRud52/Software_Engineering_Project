@@ -1,16 +1,16 @@
 ﻿@model Software_Engineering_Project.Models.Calendar
-<div id="calendar">
+<div class="col-md-12" id="calendar">
     <div class="row">
         <div class="col-md-3 text-right">
             <h3>
                 @Ajax.ActionLink(
                     "<",
                     "UpdateCalendar",
-                    "Home",
+                    "Calendar",
                     new { currentCalendarDate = Model.date, next = false},
                     new AjaxOptions {
                         HttpMethod = "GET",
-                        InsertionMode = InsertionMode.Replace,
+                        InsertionMode = InsertionMode.ReplaceWith,
                         UpdateTargetId = "calendar",
                         OnComplete = null
                     }
@@ -25,11 +25,11 @@
                 @Ajax.ActionLink(
                     ">",
                     "UpdateCalendar",                            
-                    "Home",
+                    "Calendar",
                     new { currentCalendarDate = Model.date, next = true },
                     new AjaxOptions {
                         HttpMethod = "GET",
-                        InsertionMode = InsertionMode.Replace,
+                        InsertionMode = InsertionMode.ReplaceWith,
                         UpdateTargetId = "calendar",
                         OnComplete = null
                     }
@@ -70,10 +70,21 @@
                 else
                 {
                     started = true;
+
+
                     <div class="col-md-1 table-bordered calendar-day">
                         <div class="row text-center" style="background:#337ab7">
                             @String.Format("{0:ddd}", currDay.DayOfWeek.ToString().Substring(0, 3))
-
+                            @Ajax.ActionLink("Test", "GetDaySchedule", "Calendar",
+                                new { date = currDay },
+                                new AjaxOptions
+                                {
+                                    HttpMethod = "GET",
+                                    InsertionMode = InsertionMode.ReplaceWith,
+                                    UpdateTargetId = "calendar",
+                                    OnComplete = null
+                                }
+                            )
                             @currDay.Day
                         </div>
 

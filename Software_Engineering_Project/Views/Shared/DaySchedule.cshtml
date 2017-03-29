@@ -1,4 +1,28 @@
-﻿<div id="day-schedule">
+﻿@model Software_Engineering_Project.Models.Calendar
+
+<div class="col-md-12" id="day-schedule">
+    <div class="row">
+        <div class="text-left col-md-2">
+            @Ajax.ActionLink(
+                "Back",
+                "GetCalendar",
+                "Calendar",
+                new { currentCalendarDate = Model.date },
+                new AjaxOptions
+                {
+                    HttpMethod = "GET",
+                    InsertionMode = InsertionMode.ReplaceWith,
+                    UpdateTargetId = "day-schedule",
+                    OnComplete = null
+                }
+            )
+        </div>
+        <div class="text-center col-md-8">
+            <h3>@Model.date.ToString("ddd MMMM dd, yyyy")</h3>
+        </div>        
+        <div class="text-left col-md-2"></div>
+    </div>
+
     @{         
         System.DateTime startTime = new System.DateTime(1, 1, 1, 8, 30, 0);
     }
@@ -7,13 +31,13 @@
     {
         if (i % 2 == 0)
         {
-            <div class="row text-center" style="background:LightSkyBlue; height:50px;">
-                @startTime.ToString("h:mm tt");
+            <div class="col-md-12 text-center" style="background:LightSkyBlue; height:50px;">
+                @startTime.ToString("h:mm tt")
             </div>
         }
         else {
-            <div class="row text-center" style="background:WhiteSmoke; height:50px;">
-                @startTime.ToString("h:mm tt");
+            <div class="col-md-12 text-center" style="background:WhiteSmoke; height:50px;">
+                @startTime.ToString("h:mm tt")
             </div>
         }
 

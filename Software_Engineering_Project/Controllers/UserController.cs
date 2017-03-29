@@ -24,11 +24,16 @@ namespace Software_Engineering_Project.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
         public ActionResult Login(Models.Users user)
         {
             ConnectionStringSettings settings = ConfigurationManager.ConnectionStrings["soft_db"];
             if (settings == null)
+            { 
                 return Content("Something went wrong. Try reloading the page.");
+            }
+
             string connectionString = settings.ConnectionString;
 
             string queryString = "SELECT * FROM Users WHERE email='" + user.email + "'"; // put SELECT commands here
@@ -109,7 +114,6 @@ namespace Software_Engineering_Project.Controllers
                             return View("UserDashboard", new Tuple<Models.Users, Models.Calendar>(user, cal));
                         }
 
-                                                                                    
                     }
                     reader.Close();
                 }
