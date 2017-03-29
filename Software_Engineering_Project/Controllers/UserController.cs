@@ -15,6 +15,8 @@ namespace Software_Engineering_Project.Controllers
 {
     public class UserController : Controller
     {
+        private enum PRIVILEGES {STUDENT, FACULTY, ADMIN};
+
         // GET: User
         public ActionResult Index()
         {
@@ -57,6 +59,12 @@ namespace Software_Engineering_Project.Controllers
                         user.name = reader[2].ToString();
                         user.privilage = (int)reader[3];
 
+                        Session["user"] = (int)reader[0];
+                        Session["privilege"] = (int)reader[3];
+
+                        Models.Calendar cal = new Models.Calendar() { date = System.DateTime.Now };
+
+
                         if (user.privilage == 3) {
                             reader.Close();
 
@@ -81,22 +89,27 @@ namespace Software_Engineering_Project.Controllers
                                 dash.users.Add(tempUser);
                             }
 
-                            return PartialView("AdminDashboard", dash);
+                            return View("AdminDashboard", new Tuple<Models.AdminDashModel, Models.Calendar>(dash, cal));
                         }
                         else
                         {
-                            
+                            /*
                             ViewData["left"] = "UserDashboard";
                             ViewData["left-model"] = user;
 
-                            Models.Calendar cal = new Models.Calendar() { date = System.DateTime.Now };
+                            
                             ViewData["right"] = "Calendar";
                             ViewData["right-model"] = cal;
 
                             return View("AppContent");
-                            
+                            */
+
                             //return PartialView("UserDashboard", user);
+
+                            return View("UserDashboard", new Tuple<Models.Users, Models.Calendar>(user, cal));
                         }
+
+                                                                                    
                     }
                     reader.Close();
                 }
@@ -112,6 +125,23 @@ namespace Software_Engineering_Project.Controllers
 
         public ActionResult DashboardUpdate()
         {
+/*
+            if (Session["user"] != null)
+            {
+                if ((int)Session["privilege"] == (int)PRIVILEGES.STUDENT)
+                {
+                    return View("UserDashboard");
+                }
+                else if ((int)Session["privilege"] == (int)PRIVILEGES.FACULTY)
+                {                    
+                    return PartialView("AdminDashboard");
+                }
+                else if ((int)Session["privilege"] == (int)PRIVILEGES.ADMIN)
+                {                 
+                    return PartialView("AdminDashboard");
+                }
+            }
+*/
             return View();
         }
     }

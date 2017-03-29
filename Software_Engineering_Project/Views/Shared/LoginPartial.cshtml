@@ -1,11 +1,10 @@
 ﻿@model Software_Engineering_Project.Models.Users
 
-
 <div id="login-form">
     <h3>Login To Book</h3>
 
     @{
-
+/*
         using (Ajax.BeginForm("Login", "User", new AjaxOptions { HttpMethod = "POST", InsertionMode = InsertionMode.Replace, UpdateTargetId = "app-content", OnComplete = null }))
         {
             @Html.TextBoxFor(m => m.email, new { @type = "email", @class = "form-control", @id = "user-email", @placeholder = "Email" })
@@ -14,6 +13,15 @@
             <br />
             <input type="submit" class="btn btn-primary" value="Login" />
         }
+*/
 
+        using (Html.BeginForm("Login", "User", FormMethod.Post))
+        {
+            @Html.TextBoxFor(m => m.email, new { @type = "email", @class = "form-control", @id = "user-email", @placeholder = "Email" })
+            <br />
+            @Html.TextBoxFor(m => m.hash, new { @type = "password", @class = "form-control", @id = "user-pass", @placeholder = "Password" })
+            <br />
+            <input type="submit" class="btn btn-primary" value="Login" />
+        }
     }
 </div>

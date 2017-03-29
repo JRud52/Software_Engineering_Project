@@ -1,39 +1,46 @@
-﻿@model Software_Engineering_Project.Models.AdminDashModel
+﻿@model Tuple<Software_Engineering_Project.Models.AdminDashModel, Software_Engineering_Project.Models.Calendar>
 
-<div>
+<div class="row" id="app-content">
 
-    <h2>Admin Dashboard</h2>
-    <h4>Hello @Model.name</h4>
-
-    <br />
-
-    <h5>Users</h5>
-    <table>
-        <tr>
-            <th>ID</th>
-            <th>EMAIL</th>
-            <th>NAME</th>
-            <th>PRIVILAGE</th>
-            <th>EDIT</th>
-        </tr>
-        @{bool x = false;}
-        @foreach (var user in Model.users)
-        {
+    <div class="col-md-5">
+        <h2>Admin Dashboard</h2>
+        <h4>Hello @Model.Item1.name</h4>
+        <br />
+        <h5>Users</h5>
+        <table>
             <tr>
-                <td>@user.id</td><td>@user.email</td><td>@user.name</td><td>@user.privilage</td>
-                <td>
-                    <button class="form-control showButton"></button> </td>
+                <th>ID</th>
+                <th>EMAIL</th>
+                <th>NAME</th>
+                <th>PRIVILAGE</th>
+                <th>EDIT</th>
             </tr>
-        }
-        @{ x = true; }
-    </table>
-    <br/>
+            @{bool x = false;}
+            @foreach (var user in Model.Item1.users)
+            {
+                <tr>
+                    <td>@user.id</td>
+                    <td>@user.email</td>
+                    <td>@user.name</td>
+                    <td>@user.privilage</td>
+                    <td>
+                        <button class="form-control showButton"></button>
+                    </td>
+                </tr>
+            }
+            @{ x = true; }
+        </table>
+        <br />
+        <h5>Rooms</h5>
+        <p>blah</p>
+        <p>blah</p>
+        <p>blah</p>
+        <p>blah</p>
+        <p>blah</p>
+    </div>
 
-    <h5>Rooms</h5>
-    <p>blah</p>
-    <p>blah</p>
-    <p>blah</p>
-    <p>blah</p>
-    <p>blah</p>
+    <div class="col-md-7">
+        @Html.Partial("Calendar", Model.Item2)        
+    </div>
 
 </div>

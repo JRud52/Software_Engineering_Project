@@ -67,14 +67,15 @@
                 {
                     <div class="col-md-1 table-bordered calendar-day"></div>
                 }
-                else 
+                else
                 {
                     started = true;
                     <div class="col-md-1 table-bordered calendar-day">
-                        @String.Format("{0:ddd}", currDay.DayOfWeek.ToString().Substring(0, 3))
-             
+                        <div class="row text-center" style="background:#337ab7">
+                            @String.Format("{0:ddd}", currDay.DayOfWeek.ToString().Substring(0, 3))
 
-                        @currDay.Day
+                            @currDay.Day
+                        </div>
 
                         @{                            
                             currDay = currDay.AddDays(1);
@@ -83,6 +84,29 @@
                                 end = true;
                             }
                         }
+
+                        <div class="row">
+                            @{ 
+                                
+                                System.DateTime startTime = new System.DateTime(1, 1, 1, 8, 30, 0);                                
+
+                                for (int k = 0; k < 9; k++)
+                                {
+                                    if (k % 2 == 0)
+                                    {
+                                        <div class="col-md-12 text-center" style="background:LightSkyBlue; height:8.8px;">                                            
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="col-lg-12 text-center" style="background:WhiteSmoke; height:8.8px;">                                            
+                                        </div>
+                                    }
+
+                                    startTime = startTime.AddHours(1.5);
+                                }
+                            }
+                        </div>
                     </div>
                 }
             }
