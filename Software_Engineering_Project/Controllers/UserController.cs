@@ -10,6 +10,7 @@ using System.Data.Common;
 using System.Security.Cryptography;
 using System.Text;
 using System.Diagnostics;
+using System.Web.Security;
 
 namespace Software_Engineering_Project.Controllers
 {
@@ -54,7 +55,8 @@ namespace Software_Engineering_Project.Controllers
                     }
                     string hash = Convert.ToBase64String(hashbytes);
 
-                    Debug.WriteLine(hash);
+                    //Debug.WriteLine(hash);
+                    //FormsAuthentication.SetAuthCookie()
 
                     reader.Read();
                     if (hash == reader[4].ToString())
@@ -68,7 +70,7 @@ namespace Software_Engineering_Project.Controllers
 
                         Models.Calendar cal = new Models.Calendar() { date = System.DateTime.Now };
 
-
+                        
                         if (user.privilage == 3) {
                             reader.Close();
 

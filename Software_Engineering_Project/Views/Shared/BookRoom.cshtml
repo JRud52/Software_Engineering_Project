@@ -1,4 +1,4 @@
-﻿@model Tuple<Software_Engineering_Project.Models.Users, Software_Engineering_Project.Models.Calendar>
+﻿@model Tuple<Software_Engineering_Project.Models.Rooms, Software_Engineering_Project.Models.Calendar>
 
 @{
     ViewBag.Title = "Book a Room";
@@ -8,12 +8,14 @@
 <div class="row" id="app-content">
 
     <div class="col-md-5">
-        <h2>@ViewBag.Title</h2>
-        <h3>@ViewBag.Message</h3>
+        <h2>Find a Room</h2>
+        <br />
+        @Html.Partial("RoomQuery", Model.Item1)       
+    </div>
 
-        @Html.Partial("RoomQuery")       
-
-    <div class="col-md-7">
+    <div class="col-md-7 text-center">
+        <h2>Choose a Date</h2>
+        <br />
         @Html.Partial("Calendar", Model.Item2)
     </div>
 

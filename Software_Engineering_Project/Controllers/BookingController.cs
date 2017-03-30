@@ -16,7 +16,25 @@ namespace Software_Engineering_Project.Controllers
 
         public ActionResult BookRoom()
         {
-            return View("BookRoom");
+            //            return View("BookRoom", new Models.Calendar() { date = System.DateTime.Now });
+            return View("BookingType");
+        }
+
+        
+        public ActionResult AdvanceBookRoom()
+        {
+            return View("BookRoom", new Tuple<Models.Rooms, Models.Calendar>(new Models.Rooms(), new Models.Calendar() { date = System.DateTime.Now}) );
+        }
+
+        public ActionResult ImmediateBookRoom()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult QueryRoom(Models.Rooms room)
+        {
+            return Content("");
         }
     }
 }

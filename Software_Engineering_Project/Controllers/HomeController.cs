@@ -29,12 +29,5 @@ namespace Software_Engineering_Project.Controllers
             return View();
         }
 
-        
-
-        [HttpPost]
-        public ActionResult QueryRoom(Models.Rooms room)
-        {            
-            return Content(""); 
-        }
     }
 }

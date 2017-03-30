@@ -20,8 +20,7 @@ namespace Software_Engineering_Project.Controllers
                 if (currentCalendarDate.Month == 1)
                 {
                     currentCalendarDate = currentCalendarDate.AddYears(-1);
-                    currentCalendarDate = currentCalendarDate.AddMonths(11);
-                    System.Diagnostics.Debug.WriteLine("Date = " + currentCalendarDate);
+                    currentCalendarDate = currentCalendarDate.AddMonths(11);                    
                 }
                 else
                 {

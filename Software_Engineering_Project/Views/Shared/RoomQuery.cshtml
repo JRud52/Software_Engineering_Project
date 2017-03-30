@@ -1,12 +1,37 @@
 ﻿@model Software_Engineering_Project.Models.Rooms
-@{
-    using (Html.BeginForm("QueryRoom", "Home", FormMethod.Post))
+
+@Html.DropDownList(
+    "Selection Type", new SelectList(
+        new List<SelectListItem>
+        {
+            new SelectListItem { Selected = false, Text = "Find a Specific Room", Value = "specific"},
+            new SelectListItem { Selected = false, Text = "General Search of Rooms", Value = "general"},
+        }, "Value", "Text", 1
+    ),
+    new
     {
-        @Html.TextBoxFor(model => model.capacity, new { @type = "number", @class = "form-control", @id = "capacity", @placeholder = "Minimum Capacity" })
+        onchange = @"
+            var form = document.forms[0]; 
+            form.action='MyMethod';
+            form.submit();",
+        //UPDATE THE ABOVE
+
+        @class = "btn btn-primary dropdown-toggle"
+    }
+)
+
+<br />
+
+@{
+    using (Html.BeginForm("QueryRoom", "Booking", FormMethod.Post))
+    {
+        <label>Minimum Capacity</label>
+        @Html.TextBoxFor(model => model.capacity, new { @type = "number", @class = "form-control", @id = "capacity"})
         <br />
 
+        <label>Type</label>
         //Replace this number input with checkboxes for each possilbe descriptor which will be queried from the DB
-        @Html.TextBoxFor(model => model.descriptorID, new { @type = "number", @class = "form-control", @id = "descriptor", @placeholder = "Descriptor" })
+        @Html.TextBoxFor(model => model.descriptorID, new { @type = "number", @class = "form-control", @id = "descriptor"})
 
         //checkbox for above replacement
         //@Html.CheckBoxFor(model => model.)
