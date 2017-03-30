@@ -24,8 +24,7 @@ namespace Software_Engineering_Project.Controllers
         }
 
         [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
+        [AllowAnonymous]       
         public ActionResult Login(Models.Users user)
         {
             ConnectionStringSettings settings = ConfigurationManager.ConnectionStrings["soft_db"];

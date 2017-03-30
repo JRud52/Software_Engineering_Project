@@ -3,19 +3,23 @@
 <div class="col-md-12" id="day-schedule">
     <div class="row">
         <div class="text-left col-md-2">
-            @Ajax.ActionLink(
-                "Back",
-                "GetCalendar",
-                "Calendar",
-                new { currentCalendarDate = Model.date },
-                new AjaxOptions
-                {
-                    HttpMethod = "GET",
-                    InsertionMode = InsertionMode.ReplaceWith,
-                    UpdateTargetId = "day-schedule",
-                    OnComplete = null
-                }
-            )
+            <h3>
+                @using Software_Engineering_Project.App_Code
+                @Ajax.RawActionLink(
+                    //string.Format("<div class=\"col-md-6\"><span class=\"glyphicon glyphicon-menu-left\"></span></div><div class=\"col-md-6\">" + Model.date.ToString("MMMM") + "</div>"),
+                    string.Format("<div class=\"col-md-6\"><span class=\"glyphicon glyphicon-menu-left\"></span>"),
+                    "GetCalendar",
+                    "Calendar",
+                    new { currentCalendarDate = Model.date },
+                    new AjaxOptions
+                    {
+                        HttpMethod = "GET",
+                        InsertionMode = InsertionMode.ReplaceWith,
+                        UpdateTargetId = "day-schedule",
+                        OnComplete = null
+                    }
+                )
+            </h3>
         </div>
         <div class="text-center col-md-8">
             <h3>@Model.date.ToString("ddd MMMM dd, yyyy")</h3>

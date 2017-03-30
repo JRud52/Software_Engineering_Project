@@ -27,6 +27,11 @@ textarea {
     height: 100px;
 }
 
+.calendar-day-header, .calendar-day-header a, .calendar-day-header a:hover{
+    text-decoration: none; 
+    color: white;
+}
+
 table, th, td {
     border: 1px solid black;
     border-collapse: collapse;

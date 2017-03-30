@@ -2,19 +2,21 @@
 <div class="col-md-12" id="calendar">
     <div class="row">
         <div class="col-md-3 text-right">
-            <h3>
-                @Ajax.ActionLink(
-                    "<",
+            <h3>                
+                @using Software_Engineering_Project.App_Code 
+                @Ajax.RawActionLink(
+                    string.Format("<span class=\"glyphicon glyphicon-menu-left\"></span>"), 
                     "UpdateCalendar",
                     "Calendar",
-                    new { currentCalendarDate = Model.date, next = false},
-                    new AjaxOptions {
+                    new { currentCalendarDate = Model.date, next = false },
+                    new AjaxOptions
+                    {
                         HttpMethod = "GET",
                         InsertionMode = InsertionMode.ReplaceWith,
                         UpdateTargetId = "calendar",
                         OnComplete = null
                     }
-                )
+                )               
             </h3>
         </div>
         <div class="col-md-6 text-center">
@@ -22,12 +24,14 @@
         </div>
         <div class="col-md-3 text-left">
             <h3>
-                @Ajax.ActionLink(
-                    ">",
-                    "UpdateCalendar",                            
+                @using Software_Engineering_Project.App_Code
+                @Ajax.RawActionLink(
+                    string.Format("<span class=\"glyphicon glyphicon-menu-right\"></span>"),
+                    "UpdateCalendar",
                     "Calendar",
                     new { currentCalendarDate = Model.date, next = true },
-                    new AjaxOptions {
+                    new AjaxOptions
+                    {
                         HttpMethod = "GET",
                         InsertionMode = InsertionMode.ReplaceWith,
                         UpdateTargetId = "calendar",
@@ -73,20 +77,29 @@
 
 
                     <div class="col-md-1 table-bordered calendar-day">
+                        @using Software_Engineering_Project.App_Code
+                        @Ajax.RawActionLink(
+                            string.Format("<div class=\"row text-center calendar-day-header\" style=\"background:#337ab7\">" +
+                                String.Format("{0:ddd} ", currDay.DayOfWeek.ToString().Substring(0, 3)) + 
+                                currDay.Day + 
+                                "</div>"),
+                            "GetDaySchedule",
+                            "Calendar",
+                            new { date = Model.date },
+                            new AjaxOptions
+                            {
+                                HttpMethod = "GET",
+                                InsertionMode = InsertionMode.ReplaceWith,
+                                UpdateTargetId = "calendar",
+                                OnComplete = null
+                            }
+                        )
+                        <!--
                         <div class="row text-center" style="background:#337ab7">
-                            @String.Format("{0:ddd}", currDay.DayOfWeek.ToString().Substring(0, 3))
-                            @Ajax.ActionLink("Test", "GetDaySchedule", "Calendar",
-                                new { date = currDay },
-                                new AjaxOptions
-                                {
-                                    HttpMethod = "GET",
-                                    InsertionMode = InsertionMode.ReplaceWith,
-                                    UpdateTargetId = "calendar",
-                                    OnComplete = null
-                                }
-                            )
-                            @currDay.Day
+                            //@String.Format("{0:ddd}", currDay.DayOfWeek.ToString().Substring(0, 3))                           
+                            //@currDay.Day
                         </div>
+                            -->
 
                         @{                            
                             currDay = currDay.AddDays(1);
