@@ -70,7 +70,7 @@ namespace Software_Engineering_Project.Controllers
 
                         Models.Calendar cal = new Models.Calendar() { date = System.DateTime.Now };
 
-                        
+
                         if (user.privilage == 3) {
                             reader.Close();
 
@@ -99,18 +99,22 @@ namespace Software_Engineering_Project.Controllers
                         }
                         else
                         {
-                            /*
-                            ViewData["left"] = "UserDashboard";
-                            ViewData["left-model"] = user;
+                            reader.Close();
+                            queryString = "SELECT * FROM Bookings WHERE userID='" + user.id + "'";
+                            command = new SqlCommand(queryString, connection);
+                            reader = command.ExecuteReader();                     
+                           
 
-                            
-                            ViewData["right"] = "Calendar";
-                            ViewData["right-model"] = cal;
+                            while (reader.Read()) {
+                                Models.Bookings booking = new Models.Bookings();
+                                booking.id = (int)reader[0];
+                                booking.userID = (int)reader[1];
+                                booking.startTime = (System.DateTime)reader[2];
+                                booking.endTime = (System.DateTime)reader[3];
+                                booking.roomID = (int)reader[4];
 
-                            return View("AppContent");
-                            */
-
-                            //return PartialView("UserDashboard", user);
+                                cal.bookings.Add(booking);
+                            }
 
                             return View("UserDashboard", new Tuple<Models.Users, Models.Calendar>(user, cal));
                         }
