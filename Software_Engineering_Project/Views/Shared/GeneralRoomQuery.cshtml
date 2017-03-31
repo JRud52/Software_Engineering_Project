@@ -1,9 +1,6 @@
 ﻿@model Software_Engineering_Project.Models.Rooms
 
-<br />
-
 <div id="room-query-form">
-
     <h4>
         Know which room your looking for?<br />
         @using Software_Engineering_Project.App_Code
@@ -22,7 +19,6 @@
     </h4>
 
     <br />
-
 
     @{
         using (Html.BeginForm("QueryRoom", "Booking", FormMethod.Post))
@@ -43,3 +39,5 @@
         }
     }
 </div>
+
+

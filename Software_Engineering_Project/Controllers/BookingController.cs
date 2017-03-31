@@ -36,5 +36,17 @@ namespace Software_Engineering_Project.Controllers
         {
             return Content("");
         }
+
+        
+        public ActionResult SpecificRoomSearch()
+        {
+            return PartialView("SpecificRoomQuery");
+        }
+
+
+        public ActionResult GeneralRoomSearch()
+        {
+            return PartialView("GeneralRoomQuery");
+        }
     }
 }

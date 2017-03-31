@@ -253,6 +253,8 @@
     <Content Include="Views\Shared\AppContent.cshtml" />
     <Content Include="Views\Shared\FacultyDashboard.cshtml" />
     <Content Include="Views\Shared\BookingType.cshtml" />
+    <Content Include="Views\Shared\GeneralRoomQuery.cshtml" />
+    <Content Include="Views\Shared\SpecificRoomQuery.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
