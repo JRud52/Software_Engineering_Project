@@ -48,5 +48,10 @@ namespace Software_Engineering_Project.Controllers
         {
             return PartialView("GeneralRoomQuery");
         }
+
+        public ActionResult Book(Models.Rooms room)
+        {
+            return View();
+        }
     }
 }

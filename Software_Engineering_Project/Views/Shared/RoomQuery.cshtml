@@ -2,44 +2,8 @@
 
 <br />
 
-<div id="room-query-form">
-
-    <h4>
-        Know which room your looking for?<br />
-        @using Software_Engineering_Project.App_Code
-        @Ajax.RawActionLink(
-        string.Format("<button class=\"btn btn-primary btn-xs\">Find Specific Room</button>"),
-        "SpecificRoomSearch",
-        "Booking",
-        new AjaxOptions
-        {
-            HttpMethod = "GET",
-            InsertionMode = InsertionMode.ReplaceWith,
-            UpdateTargetId = "room-query-form",
-            OnComplete = null
-        }
-    )
-    </h4>
-
-    <br />
-
-
-    @{
-        using (Html.BeginForm("QueryRoom", "Booking", FormMethod.Post))
-        {
-            <label>Minimum Capacity</label>
-            @Html.TextBoxFor(model => model.capacity, new { @type = "number", @class = "form-control", @id = "capacity" })
-            <br />
-
-            <label>Type</label>
-            //Replace this number input with checkboxes for each possilbe descriptor which will be queried from the DB
-            @Html.TextBoxFor(model => model.descriptorID, new { @type = "number", @class = "form-control", @id = "descriptor" })
-
-            //checkbox for above replacement
-            //@Html.CheckBoxFor(model => model.)
-
-            <br />
-            <input type="submit" class="btn btn-primary" value="Search" />
-        }
-    }
+<div class="card">
+    <div class="card-block">
+        @Html.Partial("GeneralRoomQuery")
+    </div>
 </div>

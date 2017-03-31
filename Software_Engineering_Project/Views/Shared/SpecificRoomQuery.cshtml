@@ -21,6 +21,7 @@
     
     <br />
 
+
     @{
         using (Html.BeginForm("QueryRoom", "Booking", FormMethod.Post))
         {
@@ -28,9 +29,11 @@
             @Html.TextBoxFor(model => model.id, new { @type = "number", @class = "form-control", @id = "capacity" })
 
             <br />
-            <input type="submit" class="btn btn-primary" value="Search" />
+            <input type="submit" class="w-100 btn btn-primary btn-lg" value="Book" />
         }
     }
+
+    <br />
 </div>
 
 

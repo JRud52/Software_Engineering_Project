@@ -17,9 +17,10 @@
 }
 
 /* Set width on the form input elements since they're 100% wide by default */
-input,
-select,
-textarea {
+
+.login input,
+.login select,
+.login textarea {
     max-width: 280px;
 }
 
@@ -96,4 +97,8 @@ th {
 
 .align-middle {
     vertical-align: middle!important;
+}
+
+.w-100 {
+    width: 100% !important;
 }
