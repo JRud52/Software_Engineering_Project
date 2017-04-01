@@ -5,18 +5,19 @@
 }
 
 
-<div class="row" id="app-content">
+<div class="row text-center" id="app-content">
 
-    <div class="col-md-5">
+    <div class="col-md-12">
         <h2>Find a Room</h2>
         <br />
         @Html.Partial("RoomQuery", Model.Item1)       
     </div>
 
+    <!--
     <div class="col-md-7 text-center">
         <h2>Choose a Date</h2>
-        <br />
-        @Html.Partial("Calendar", Model.Item2)
+        <br />       
+        Html.Partial("Calendar", Model.Item2)
     </div>
-
+        -->
 </div>

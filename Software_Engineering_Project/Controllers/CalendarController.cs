@@ -38,6 +38,7 @@ namespace Software_Engineering_Project.Controllers
 
         public PartialViewResult GetDaySchedule(System.DateTime date)
         {
+
             return PartialView("DaySchedule", new Models.Calendar() { date = date });
         }
 

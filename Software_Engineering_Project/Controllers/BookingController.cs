@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Data.SqlClient;
+using System.Configuration;
+
 
 namespace Software_Engineering_Project.Controllers
 {
@@ -34,10 +37,70 @@ namespace Software_Engineering_Project.Controllers
         [HttpPost]
         public ActionResult QueryRoom(Models.Rooms room)
         {
+            System.Diagnostics.Debug.WriteLine("Query Room" + room.id);
             return Content("");
         }
 
-        
+        [HttpPost]
+        public ActionResult SelectRoom(Models.Rooms room)
+        {
+            Models.Calendar cal = new Models.Calendar();
+            cal.room = room;
+            cal.date = System.DateTime.Now;
+
+            ConnectionStringSettings settings = ConfigurationManager.ConnectionStrings["soft_db"];
+            string connectionString = settings.ConnectionString;
+
+            string queryString = "SELECT * FROM Bookings WHERE roomID='" + room.id + "'"; 
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(queryString, connection);
+
+                try
+                {
+                    connection.Open();
+                    SqlDataReader reader = command.ExecuteReader();
+
+                    if (reader.HasRows) {
+                        while (reader.Read())
+                        {
+                            Models.Bookings booking = new Models.Bookings();
+                            booking.id = (int)reader[0];
+                            booking.userID = (int)reader[1];
+                            booking.startTime = (System.DateTime)reader[2];
+                            booking.endTime = (System.DateTime)reader[3];
+                            booking.roomID = (int)reader[4];
+
+                            cal.bookings.Add(booking);
+                        }
+                    }
+                    else
+                    {
+                        return View("SpecificRoomQueryError", new Models.Rooms());
+                    }
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine("SQL error");
+                }
+            }
+
+            return View("RoomCalendar", cal);
+        }
+
+        public ActionResult SelectTime(Models.Calendar cal) {
+            Models.Bookings booking = new Models.Bookings();
+
+            booking.startTime = cal.date;
+            booking.endTime = cal.date.AddHours(1.5);
+            booking.roomID = cal.room.id;
+            booking.id = -1;
+            booking.userID = (int)Session["user"];
+
+            return View("ConfirmBooking", booking);
+        }
+
         public ActionResult SpecificRoomSearch()
         {
             return PartialView("SpecificRoomQuery");
@@ -49,9 +112,10 @@ namespace Software_Engineering_Project.Controllers
             return PartialView("GeneralRoomQuery");
         }
 
-        public ActionResult Book(Models.Rooms room)
+        [HttpPost]
+        public ActionResult Book(Models.Bookings booking)
         {
             return View();
-        }
+        }        
     }
 }

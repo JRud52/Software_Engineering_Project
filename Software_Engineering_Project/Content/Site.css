@@ -16,13 +16,6 @@
     white-space: normal;
 }
 
-/* Set width on the form input elements since they're 100% wide by default */
-
-.login input,
-.login select,
-.login textarea {
-    max-width: 280px;
-}
 
 .calendar-day {
     height: 100px;

@@ -1,11 +1,38 @@
 ﻿@model Software_Engineering_Project.Models.Calendar
+
 <div class="col-md-12" id="calendar">
     <div class="row">
-        <div class="col-md-3 text-right">
-            <h3>                
-                @using Software_Engineering_Project.App_Code 
+        <div class="col-md-3 text-left">
+            <h2>
+                @using Software_Engineering_Project.App_Code
                 @Ajax.RawActionLink(
-                    string.Format("<span class=\"glyphicon glyphicon-menu-left\"></span>"), 
+                    string.Format("Back to Room Selection"),
+                    "AdvanceBookRoom",
+                    "Booking",
+                    new { currentCalendarDate = Model.date, next = false },
+                    new AjaxOptions
+                    {
+                        HttpMethod = "GET",
+                        InsertionMode = InsertionMode.ReplaceWith,
+                        UpdateTargetId = "calendar",
+                        OnComplete = null
+                    }
+                )
+            </h2>
+        </div>
+        <div class="col-md-6 text-center">
+            <h2>Room @Model.room.id </h2>
+        </div>
+        <div class="col-md-3">
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-3 text-right">
+            <h3>
+                @using Software_Engineering_Project.App_Code
+                @Ajax.RawActionLink(
+                    string.Format("<span class=\"glyphicon glyphicon-menu-left\"></span>"),
                     "UpdateCalendar",
                     "Calendar",
                     new { currentCalendarDate = Model.date, next = false },
@@ -16,12 +43,14 @@
                         UpdateTargetId = "calendar",
                         OnComplete = null
                     }
-                )               
+                )
             </h3>
         </div>
+
         <div class="col-md-6 text-center">
             <h3>@String.Format("{0:MMMM yyyy}", Model.date, Model.date.Year)</h3>
         </div>
+
         <div class="col-md-3 text-left">
             <h3>
                 @using Software_Engineering_Project.App_Code
@@ -39,7 +68,8 @@
                     }
                 )
             </h3>
-        </div>                    
+        </div>
+
     </div>
 
     @{
@@ -62,12 +92,13 @@
     }
 
 
-    @while (!end) {
+    @while (!end)
+    {
 
         <div class="row seven-cols">
-            @for (j = 1; j < 8 && !end; j++) 
+            @for (j = 1; j < 8 && !end; j++)
             {
-                if (!started && (int)currDay.DayOfWeek != 7 * i + j - 1) 
+                if (!started && (int)currDay.DayOfWeek != 7 * i + j - 1)
                 {
                     <div class="col-md-1 table-bordered calendar-day"></div>
                 }
@@ -80,8 +111,8 @@
                         @using Software_Engineering_Project.App_Code
                         @Ajax.RawActionLink(
                             string.Format("<div class=\"row text-center calendar-day-header\" style=\"background:#337ab7\">" +
-                                String.Format("{0:ddd} ", currDay.DayOfWeek.ToString().Substring(0, 3)) + 
-                                currDay.Day + 
+                                String.Format("{0:ddd} ", currDay.DayOfWeek.ToString().Substring(0, 3)) +
+                                currDay.Day +
                                 "</div>"),
                             "GetDaySchedule",
                             "Calendar",
@@ -96,12 +127,12 @@
                         )
                         <!--
                         <div class="row text-center" style="background:#337ab7">
-                            //@String.Format("{0:ddd}", currDay.DayOfWeek.ToString().Substring(0, 3))                           
+                            //@String.Format("{0:ddd}", currDay.DayOfWeek.ToString().Substring(0, 3))
                             //@currDay.Day
                         </div>
                             -->
 
-                        @{                            
+                        @{
                             currDay = currDay.AddDays(1);
                             if (currDay.Month > lastDay.Month || currDay.Year > lastDay.Year)
                             {
@@ -110,14 +141,15 @@
                         }
 
                         <div class="row">
-                            @{ 
+                            @{
 
-                                System.DateTime startTime = new System.DateTime(1, 1, 1, 8, 30, 0);
+                                System.DateTime startTime = new System.DateTime(Model.date.Year, Model.date.Month, Model.date.Day, 8, 30, 0);
 
                                 for (int k = 0; k < 9; k++)
                                 {
                                     bool found = false;
-                                    if(Model.bookings != null) {
+                                    if (Model.bookings != null)
+                                    {
                                         foreach (Software_Engineering_Project.Models.Bookings booking in Model.bookings)
                                         {
                                             if (booking.startTime == startTime)
@@ -129,13 +161,26 @@
 
                                     if (found)
                                     {
-                                        <div class="col-md-12 text-center" style="background:red; height:8.8px;">                                            
+                                        <div class="col-md-12 text-center" style="background:red; height:8.8px;">
                                         </div>
-                                        }
+                                    }
                                     else
                                     {
-                                        <div class="col-lg-12 text-center" style="height:8.8px;">                                            
-                                        </div>
+                                        @using Software_Engineering_Project.App_Code
+                                        @Ajax.RawActionLink(
+                                            string.Format("<div class=\"col-lg-12 text-center\" style=\"background: green; height: 8.8px; \"></ div >"),
+                                            "SelectTime",
+                                            "Booking",
+                                            new { date = startTime },
+                                            new AjaxOptions
+                                            {
+                                                HttpMethod = "GET",
+                                                InsertionMode = InsertionMode.ReplaceWith,
+                                                UpdateTargetId = "calendar",
+                                                OnComplete = null
+                                            }
+                                        )
+                                        
                                     }
 
                                     startTime = startTime.AddHours(1.5);
@@ -146,12 +191,13 @@
                 }
             }
 
-            @for (; j < 8; j++) {
+            @for (; j < 8; j++)
+            {
                 <div class="col-md-1 table-bordered calendar-day"></div>
             }
 
         </div>
 
         i++;
-    }    
+    }
 </div>

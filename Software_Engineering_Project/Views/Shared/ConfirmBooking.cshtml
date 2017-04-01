@@ -1,0 +1,21 @@
+﻿@model Software_Engineering_Project.Models.Bookings
+
+<div class="col-md-12" id="booking-confirmation">
+    <h2>Confirm Booking</h2>
+    <h3>Room: @Model.roomID</h3>
+    <h3>Starting Time @Model.startTime</h3>
+    <h3>Ending Time @Model.endTime</h3>
+
+    @{
+        using (Html.BeginForm("Book", "Booking", FormMethod.Post))
+        {
+            <label>Provide a description of your room usage:</label>
+            @Html.TextBoxFor(model => model.description, new { @type = "text", @class = "form-control", @id = "description" })
+            <br />
+
+                
+            <br />
+            <input type="submit" class="w-100 btn btn-primary btn-lg" value="Book" />
+        }
+    }
+</div>

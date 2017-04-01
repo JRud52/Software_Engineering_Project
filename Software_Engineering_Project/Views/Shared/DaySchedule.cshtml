@@ -33,14 +33,26 @@
 
     @for (int i = 0; i < 9; i++)
     {
-        if (i % 2 == 0)
+        bool found = false;
+        if (Model.bookings != null)
         {
-            <div class="col-md-12 text-center" style="background:LightSkyBlue; height:50px;">
+            foreach (Software_Engineering_Project.Models.Bookings booking in Model.bookings)
+            {
+                if (booking.startTime == startTime)
+                {
+                    found = true;
+                }
+            }
+        }
+
+        if (found)
+        {
+            <div class="col-md-12 text-center" style="background:red; height:50px;">
                 @startTime.ToString("h:mm tt")
             </div>
         }
         else {
-            <div class="col-md-12 text-center" style="background:WhiteSmoke; height:50px;">
+            <div class="col-md-12 text-center" style="background:green; height:50px;">
                 @startTime.ToString("h:mm tt")
             </div>
         }

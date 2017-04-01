@@ -1,16 +1,7 @@
-﻿@{
-    ViewBag.Title = "About";
-}
-<h2>@ViewBag.Title</h2>
-<h3>@ViewBag.Message</h3>
-
-
-<div class="row">
-    <div class="col-md-5">
-        <h4>Narrow Your Search</h4>
+﻿<div class="row">
+    <div class="col-md-12 text-center">
+        <h3>View Bookings</h3>
+        <h5>No need to login, simply search for the room you are looking for to see when it is availale.</h5>
         @Html.Partial("RoomQuery")
-    </div>
-    <div class="col-md-7">
-        @Html.Partial("Calendar", new Software_Engineering_Project.Models.Calendar() { date = System.DateTime.Now})
-    </div>
+    </div>   
 </div>

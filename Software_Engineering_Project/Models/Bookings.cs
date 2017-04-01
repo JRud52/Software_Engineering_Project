@@ -12,5 +12,6 @@ namespace Software_Engineering_Project.Models
         public DateTime startTime { get; set; }
         public DateTime endTime { get; set; }
         public int roomID { get; set; }
+        public string description { get; set; }
     }
 }
