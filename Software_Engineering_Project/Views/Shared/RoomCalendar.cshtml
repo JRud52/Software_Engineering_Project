@@ -125,12 +125,7 @@
                                 OnComplete = null
                             }
                         )
-                        <!--
-                        <div class="row text-center" style="background:#337ab7">
-                            //@String.Format("{0:ddd}", currDay.DayOfWeek.ToString().Substring(0, 3))
-                            //@currDay.Day
-                        </div>
-                            -->
+                       
 
                         @{
                             currDay = currDay.AddDays(1);
@@ -165,8 +160,7 @@
                                         </div>
                                     }
                                     else
-                                    {
-                                        @using Software_Engineering_Project.App_Code
+                                    {                                       
                                         @Ajax.RawActionLink(
                                             string.Format("<div class=\"col-lg-12 text-center\" style=\"background: green; height: 8.8px; \"></ div >"),
                                             "SelectTime",

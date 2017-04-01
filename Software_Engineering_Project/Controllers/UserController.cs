@@ -106,6 +106,8 @@ namespace Software_Engineering_Project.Controllers
 
                                 cal.bookings.Add(booking);
                             }
+
+                            Session["calendar"] = cal;
                             return View("UserDashboard", new Tuple<Models.Users, Models.Calendar>(user, cal));
                         }
 
@@ -167,12 +169,7 @@ namespace Software_Engineering_Project.Controllers
                 }
             }
 
-
-
-
-
-
-                    return View();
+            return View();
         }
     }
 }

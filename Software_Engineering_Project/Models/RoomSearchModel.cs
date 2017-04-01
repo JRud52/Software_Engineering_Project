@@ -6,7 +6,7 @@ using System.Web;
 namespace Software_Engineering_Project.Models
 {
     public class RoomSearchModel
-    {
+    {       
         public List<Models.Rooms> rooms { get; set; }
         public RoomSearchModel()
         {
