@@ -1,16 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using System.Data.SqlClient;
-using System.Data;
 using System.Configuration;
-using System.Data.Common;
 using System.Security.Cryptography;
 using System.Text;
 using System.Diagnostics;
-using System.Web.Security;
 
 namespace Software_Engineering_Project.Controllers
 {
@@ -91,7 +86,6 @@ namespace Software_Engineering_Project.Controllers
                                 tempUser.privilage = (int)reader[3];
                                 dash.users.Add(tempUser);
                             }
-
                             return View("AdminDashboard", new Tuple<Models.AdminDashModel, Models.Calendar>(dash, cal));
                         }
                         else
@@ -112,7 +106,6 @@ namespace Software_Engineering_Project.Controllers
 
                                 cal.bookings.Add(booking);
                             }
-
                             return View("UserDashboard", new Tuple<Models.Users, Models.Calendar>(user, cal));
                         }
 
@@ -127,6 +120,59 @@ namespace Software_Engineering_Project.Controllers
 
             // show the passed data in a seperate page.
             return View("LoginError"); 
+        }
+
+        public ActionResult UserAdd()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult UserAddMethod(Models.Users user)
+        {
+
+            ConnectionStringSettings settings = ConfigurationManager.ConnectionStrings["soft_db"];
+            if (settings == null)
+            {
+                return Content("Something went wrong. Try reloading the page.");
+            }
+
+            string connectionString = settings.ConnectionString;
+
+            byte[] bytes = new UTF8Encoding().GetBytes(user.hash);
+            byte[] hashbytes;
+            using (var algorithm = new SHA512Managed())
+            {
+                hashbytes = algorithm.ComputeHash(bytes);
+            }
+            string hash = Convert.ToBase64String(hashbytes);
+
+
+            string queryString = "INSERT INTO Users (email, name, privilage, hash) VALUES (" + user.email + ", " + user.name + ", " + user.privilage + ", " + hash + ")"; // put SELECT commands here
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(queryString, connection);
+
+                try
+                {
+                    connection.Open();
+                    IAsyncResult result = command.BeginExecuteNonQuery();
+                    command.ExecuteNonQuery();
+                    command.EndExecuteNonQuery(result);
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
+                }
+            }
+
+
+
+
+
+
+                    return View();
         }
     }
 }

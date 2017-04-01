@@ -262,6 +262,7 @@
     <Content Include="Views\Shared\RoomQueryResults.cshtml" />
     <Content Include="Views\Shared\BookingConflict.cshtml" />
     <Content Include="Views\Shared\LoginError.cshtml" />
+    <Content Include="Views\Shared\UserAdd.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

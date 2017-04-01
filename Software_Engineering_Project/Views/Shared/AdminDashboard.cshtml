@@ -18,6 +18,7 @@
             @{bool x = false;}
             @foreach (var user in Model.Item1.users)
             {
+                if (user.privilage < 3) { 
                 <tr>
                     <td>@user.id</td>
                     <td>@user.email</td>
@@ -25,18 +26,20 @@
                     <td>@user.privilage</td>
                     <td>
                         <button class="form-control showButton"></button>
+                        
+
                     </td>
                 </tr>
+                }
             }
             @{ x = true; }
+
         </table>
+
+        <br/>
+        <input type="button" class="form-control showButton" value="Add user" onclick="location.href='@Url.Action("UserAdd", "User")'" />
         <br />
-        <h5>Rooms</h5>
-        <p>blah</p>
-        <p>blah</p>
-        <p>blah</p>
-        <p>blah</p>
-        <p>blah</p>
+
     </div>
 
     <div class="col-md-7">
