@@ -173,9 +173,9 @@
     </Compile>
     <Compile Include="Models\Bookings.cs" />
     <Compile Include="Models\Calendar.cs" />
-    <Compile Include="Models\Descriptors.cs" />
     <Compile Include="Models\Rooms.cs" />
     <Compile Include="Models\AdminDashModel.cs" />
+    <Compile Include="Models\RoomSearchModel.cs" />
     <Compile Include="Models\Users.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -235,7 +235,6 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\ViewBookings.cshtml" />
-    <Content Include="Views\Shared\BookRoom.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\RoomQuery.cshtml" />
     <Content Include="Scripts\jquery-3.1.1.slim.min.map" />
@@ -250,7 +249,6 @@
     <Content Include="Views\Rooms\Edit.cshtml" />
     <Content Include="Views\Rooms\Index.cshtml" />
     <Content Include="Views\Shared\DaySchedule.cshtml" />
-    <Content Include="Views\Shared\AppContent.cshtml" />
     <Content Include="Views\Shared\FacultyDashboard.cshtml" />
     <Content Include="Views\Shared\BookingType.cshtml" />
     <Content Include="Views\Shared\GeneralRoomQuery.cshtml" />
@@ -258,6 +256,12 @@
     <Content Include="Views\Shared\RoomCalendar.cshtml" />
     <Content Include="Views\Shared\SpecificRoomQueryError.cshtml" />
     <Content Include="Views\Shared\ConfirmBooking.cshtml" />
+    <Content Include="Views\Shared\GeneralRoomQueryError.cshtml" />
+    <Content Include="Views\Shared\GeneralRoomQueryForm.cshtml" />
+    <Content Include="Views\Shared\SpecificRoomQueryForm.cshtml" />
+    <Content Include="Views\Shared\RoomQueryResults.cshtml" />
+    <Content Include="Views\Shared\BookingConflict.cshtml" />
+    <Content Include="Views\Shared\LoginError.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

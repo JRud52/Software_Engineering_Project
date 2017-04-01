@@ -55,8 +55,6 @@ namespace Software_Engineering_Project.Controllers
                     }
                     string hash = Convert.ToBase64String(hashbytes);
 
-                    //Debug.WriteLine(hash);
-                    //FormsAuthentication.SetAuthCookie()
 
                     reader.Read();
                     if (hash == reader[4].ToString())
@@ -65,8 +63,7 @@ namespace Software_Engineering_Project.Controllers
                         user.name = reader[2].ToString();
                         user.privilage = (int)reader[3];
 
-                        Session["user"] = (int)reader[0];
-                        Session["privilege"] = (int)reader[3];
+                        Session["user"] = user;                        
 
                         Models.Calendar cal = new Models.Calendar() { date = System.DateTime.Now };
 
@@ -129,29 +126,7 @@ namespace Software_Engineering_Project.Controllers
             }
 
             // show the passed data in a seperate page.
-            return PartialView("LoginPartial"); //Content("Username " + user.email + " <br/>Password: " + user.hash); //View(user);
-        }
-
-        public ActionResult DashboardUpdate()
-        {
-/*
-            if (Session["user"] != null)
-            {
-                if ((int)Session["privilege"] == (int)PRIVILEGES.STUDENT)
-                {
-                    return View("UserDashboard");
-                }
-                else if ((int)Session["privilege"] == (int)PRIVILEGES.FACULTY)
-                {                    
-                    return PartialView("AdminDashboard");
-                }
-                else if ((int)Session["privilege"] == (int)PRIVILEGES.ADMIN)
-                {                 
-                    return PartialView("AdminDashboard");
-                }
-            }
-*/
-            return View();
+            return View("LoginError"); 
         }
     }
 }
