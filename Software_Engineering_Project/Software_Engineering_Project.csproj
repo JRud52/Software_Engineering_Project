@@ -258,6 +258,7 @@
     <Content Include="Views\Shared\RoomCalendar.cshtml" />
     <Content Include="Views\Shared\SpecificRoomQueryError.cshtml" />
     <Content Include="Views\Shared\ConfirmBooking.cshtml" />
+    <Content Include="Views\Shared\UserAdd.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

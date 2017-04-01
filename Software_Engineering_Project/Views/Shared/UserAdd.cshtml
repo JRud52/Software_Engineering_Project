@@ -1,0 +1,17 @@
+﻿@model Software_Engineering_Project.Models.Users
+<div>
+    @{ 
+        using (Html.BeginForm("UserAddMethod", "User", FormMethod.Post, new { @class = "login" }))
+        {
+            @Html.TextBoxFor(m => m.name, new { @type = "text", @class = "form-control", @id = "user-name", @placeholder = "Name" })
+            <br />
+            @Html.TextBoxFor(m => m.email, new { @type = "email", @class = "form-control", @id = "user-email", @placeholder = "Email" })
+            <br />
+            @Html.TextBoxFor(m => m.hash, new { @type = "password", @class = "form-control", @id = "user-pass", @placeholder = "Password" })
+            <br />
+            @Html.TextBoxFor(m => m.privilage, new { @type = "number", @class = "form-control", @id = "user-priv", @placeholder = "Privilage(1-3)" })
+            <br />
+            <input type="submit" class="w-100 btn btn-primary btn-lg" value="Add User" />
+        }
+    }
+</div>
