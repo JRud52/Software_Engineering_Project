@@ -20,12 +20,12 @@ namespace Software_Engineering_Project.Controllers
         }
 
         [HttpPost]
-        [AllowAnonymous]       
+        [AllowAnonymous]
         public ActionResult Login(Models.Users user)
         {
             ConnectionStringSettings settings = ConfigurationManager.ConnectionStrings["soft_db"];
             if (settings == null)
-            { 
+            {
                 return Content("Something went wrong. Try reloading the page.");
             }
 
@@ -58,7 +58,7 @@ namespace Software_Engineering_Project.Controllers
                         user.name = reader[2].ToString();
                         user.privilage = (int)reader[3];
 
-                        Session["user"] = user;                        
+                        Session["user"] = user;
 
                         Models.Calendar cal = new Models.Calendar() { date = System.DateTime.Now };
 
@@ -93,8 +93,8 @@ namespace Software_Engineering_Project.Controllers
                             reader.Close();
                             queryString = "SELECT * FROM Bookings WHERE userID='" + user.id + "'";
                             command = new SqlCommand(queryString, connection);
-                            reader = command.ExecuteReader();                     
-                           
+                            reader = command.ExecuteReader();
+
 
                             while (reader.Read()) {
                                 Models.Bookings booking = new Models.Bookings();
@@ -121,7 +121,7 @@ namespace Software_Engineering_Project.Controllers
             }
 
             // show the passed data in a seperate page.
-            return View("LoginError"); 
+            return View("LoginError");
         }
 
         public ActionResult UserAdd()
@@ -169,7 +169,7 @@ namespace Software_Engineering_Project.Controllers
                 }
             }
 
-            return View();
+            return View("AdminDashboard");
         }
     }
 }
