@@ -262,7 +262,6 @@
     <Content Include="Views\Shared\LoginError.cshtml" />
     <Content Include="Views\Shared\UserAdd.cshtml" />
     <Content Include="Views\Shared\ExtendBookingError.cshtml" />
-    <Content Include="Views\Shared\UserBookingList.cshtml" />
     <Content Include="Views\Shared\RoomAdd.cshtml" />
     <Content Include="Views\Shared\UserEdit.cshtml" />
   </ItemGroup>
