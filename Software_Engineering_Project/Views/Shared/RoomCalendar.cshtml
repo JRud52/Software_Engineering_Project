@@ -97,13 +97,14 @@
                                 </div>
                             }
                             else{
-                                            <!--
-                                Ajax.RawActionLink(
-                                    string.Format("<div class=\"row text-center calendar-day-header\" style=\"background:#337ab7\">" +
+                                
+                                           
+                                @Ajax.RawActionLink(
+                                    string.Format("<div class=\"row text-center calendar-day-header\">" +
                                         String.Format("{0:ddd} ", currDay.DayOfWeek.ToString().Substring(0, 3)) +
                                         currDay.Day +
                                         "</div>"),
-                                    "GetDayScheduleByCalendar",
+                                    "GetRoomDaySchedule",
                                     "Calendar",
                                     new { date = currDay, bookings = Model.bookings, roomID = Model.roomID},
                                     new AjaxOptions
@@ -112,17 +113,12 @@
                                         InsertionMode = InsertionMode.ReplaceWith,
                                         UpdateTargetId = "calendar",
                                         OnComplete = null
+                                    },
+                                    new {
+                                        @class = "ajax-raw-action-link"
                                     }
-                                )
-                                                -->                                 
-
-                                using (Html.BeginForm("GetDayScheduleByCalendar", "Calendar", FormMethod.Post, new { @class = "row text-center calendar-day-header" }))
-                                {
-                                    @Html.HiddenFor(model => model.date)
-                                    @Html.HiddenFor(model => model.bookings)
-                                    @Html.HiddenFor(model => model.roomID)
-                                    <input type="submit" class="w-100" value="@currDay.DayOfWeek.ToString().Substring(0, 3) @currDay.Day" />
-                                }
+                                )   
+                                                                     
                             }
                         }
 

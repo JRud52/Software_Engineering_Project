@@ -10,5 +10,10 @@ namespace Software_Engineering_Project.Models
         public DateTime date { get; set; }
         public List<Bookings> bookings { get; set; }
         public int roomID { get; set; }
+
+        public Calendar()
+        {
+            bookings = new List<Bookings>();
+        }
     }
 }

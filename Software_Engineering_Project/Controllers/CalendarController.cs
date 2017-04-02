@@ -29,7 +29,10 @@ namespace Software_Engineering_Project.Controllers
                     currentCalendarDate = currentCalendarDate.AddMonths(-1);
                 }
             }
-            return PartialView("Calendar", new Models.Calendar() { date = currentCalendarDate });
+
+            ((Models.Calendar)Session["calendar"]).date = currentCalendarDate; 
+
+            return PartialView("Calendar", (Models.Calendar)Session["calendar"] );
         }
 
 
@@ -38,7 +41,7 @@ namespace Software_Engineering_Project.Controllers
             ConnectionStringSettings settings = ConfigurationManager.ConnectionStrings["soft_db"];
             string connectionString = settings.ConnectionString;
 
-            string queryString = "SELECT * FROM Bookings WHERE roomID='" + roomID + "'";
+            string queryString = "SELECT * FROM bookings WHERE roomID='" + roomID + "'";
 
             Models.Calendar cal = new Models.Calendar();
             cal.roomID = roomID;
@@ -91,12 +94,12 @@ namespace Software_Engineering_Project.Controllers
             }
         }
 
-        public PartialViewResult UpdateCalendar(System.DateTime currentCalendarDate, int userID, bool next)
+        public PartialViewResult UpdateUserCalendar(System.DateTime currentCalendarDate, int userID, bool next)
         {
             ConnectionStringSettings settings = ConfigurationManager.ConnectionStrings["soft_db"];
             string connectionString = settings.ConnectionString;
 
-            string queryString = "SELECT * FROM Bookings WHERE userID='" + userID + "'";
+            string queryString = "SELECT * FROM bookings WHERE userID='" + userID + "'";
 
             Models.Calendar cal = new Models.Calendar();
             if (next)
@@ -158,16 +161,13 @@ namespace Software_Engineering_Project.Controllers
             return PartialView("DaySchedule", new Models.Calendar() { date = date });
         }        
 
-        [HttpPost]
-        public ActionResult GetDayScheduleByCalendar(Models.Calendar cal)
+        public ActionResult GetRoomDaySchedule(System.DateTime date, List<Models.Bookings> bookings, int roomID)
         {
-            
-            for(int i = 0; i < cal.bookings.Count; i++) {                    
-                if (cal.bookings[i] == null) {
-                    cal.bookings.RemoveAt(i);
-                }
-            }
-            
+            Models.Calendar cal = new Models.Calendar();
+            cal.date = date;
+            cal.bookings = bookings;
+            cal.roomID = roomID;
+
             return View("DaySchedule", cal);
         }
     }

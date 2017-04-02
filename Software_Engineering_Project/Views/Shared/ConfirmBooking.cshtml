@@ -9,6 +9,10 @@
     @{
         using (Html.BeginForm("Book", "Booking", FormMethod.Post))
         {
+            @Html.HiddenFor(model => model.userID)
+            @Html.HiddenFor(model => model.startTime)
+            @Html.HiddenFor(model => model.endTime)
+            @Html.HiddenFor(model => model.roomID)
             <label>Provide a description of your room usage:</label>
             @Html.TextAreaFor(model => model.description, new { @type = "text", @class = "w-100 form-control", @id = "description" })
             <br />

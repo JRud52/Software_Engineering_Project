@@ -8,7 +8,7 @@
                     string.Format("<span class=\"glyphicon glyphicon-menu-left\"></span>"), 
                     "UpdateCalendar",
                     "Calendar",
-                    new { currentCalendarDate = Model.date, ((Software_Engineering_Project.Models.Users)Session["user"]).id, next = false },
+                    new { currentCalendarDate = Model.date, next = false },
                     new AjaxOptions
                     {
                         HttpMethod = "GET",
@@ -29,7 +29,7 @@
                     string.Format("<span class=\"glyphicon glyphicon-menu-right\"></span>"),
                     "UpdateCalendar",
                     "Calendar",
-                    new { currentCalendarDate = Model.date, ((Software_Engineering_Project.Models.Users)Session["user"]).id, next = true },
+                    new { currentCalendarDate = Model.date, next = true },
                     new AjaxOptions
                     {
                         HttpMethod = "GET",

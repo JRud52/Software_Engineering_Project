@@ -1,0 +1,75 @@
+﻿@model Tuple<Software_Engineering_Project.Models.Users, Software_Engineering_Project.Models.Calendar>
+
+<div class="row" id="app-content">
+
+    <div class="col-md-5">
+        <h2>Dashboard</h2>
+        <h3>Hello @Model.Item1.name</h3>
+
+        <br />
+
+        <div class="col-md-12">
+            <h4>Current Bookings</h4>
+        </div>
+
+        @{
+            if (Model.Item2.bookings != null)
+            {
+                foreach (Software_Engineering_Project.Models.Bookings booking in Model.Item2.bookings)
+                {
+                    if (booking.startTime.CompareTo(System.DateTime.Now) >= 0)
+                    {
+                        <div class="col-md-12 card">
+                            <div class="row card-block">
+                                <div class="col-md-3">
+                                    <p>@booking.roomID</p>
+                                </div>
+                                <div class="col-md-3">
+                                    <p>@booking.startTime.Date</p>
+                                </div>
+                                <div class="col-md-3">
+                                    <p>@booking.startTime.TimeOfDay - @booking.endTime.TimeOfDay</p>
+                                </div>
+                                <div class="col-md-3">
+                                    @Html.ActionLink("Release", "ReleaseRoom", "Booking", new { bookingID = booking.id }, new { @class = "w-100 btn btn-primary" })
+                                </div>
+                                <div class="col-md-9">
+                                    <p>@booking.description</p>
+                                </div>
+                                <div class="col-md-3">
+                                    @Html.ActionLink("Extend", "ExtendBooking", "Booking", new { bookingID = booking.id }, new { @class = "w-100 btn btn-primary" })
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+            }
+            else
+            {
+                <div class="col-md-12 card">
+                    <div class="row card-block">
+                        <div class="col-md-12">
+                            <p>You currently have no active bookings.</p>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+
+        <div class="col-md-12 text-center">
+            <p class="error-message">Unable to extend this booking, someone has already reserved the next timeslot for this room. Consider booking a new room instead.</p>
+        </div>
+
+        <div class="col-md-12 text-center">
+            <br />
+            @Html.ActionLink("Book A Room", "BookRoom", "Booking", null, new { @class = "btn btn-primary btn-lg" })
+        </div>
+
+
+    </div>
+
+    <div class="col-md-7">
+        @Html.Partial("Calendar", Model.Item2)
+    </div>
+
+</div>

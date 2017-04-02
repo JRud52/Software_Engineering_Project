@@ -15,8 +15,10 @@
 
     @{         
         System.DateTime startTime = new System.DateTime(Model.date.Year, Model.date.Month, Model.date.Day, 8, 30, 0);
+        Software_Engineering_Project.Models.Bookings temp_booking = null;
     }
 
+    @using Software_Engineering_Project.App_Code
     @for (int i = 0; i < 9; i++)
     {
         bool found = false;
@@ -26,6 +28,7 @@
             {
                 if (booking.startTime == startTime)
                 {
+                    temp_booking = booking;
                     found = true;
                 }
             }
@@ -35,13 +38,19 @@
         {
             <div class="col-md-12 text-center time-slot-booked">               
                 <h4>@startTime.ToString("h:mm tt")</h4>
+                
+                @if (temp_booking.description != null)
+                {
+                    <p>@temp_booking.description</p>
+                }               
             </div>
         }
         else
         {
             
-            if (Session["user"] != null && startTime.CompareTo(System.DateTime.Now) < 0)
+            if (Session["user"] != null && startTime.CompareTo(System.DateTime.Now) > 0)
             {
+                /*
                 using (Html.BeginForm("SelectTime", "Booking", FormMethod.Post))
                 {
                     @Html.HiddenFor(model => model.date)
@@ -49,8 +58,30 @@
                     @Html.HiddenFor(model => model.roomID)
                     <input type="submit" class="col-md-12 text-center time-slot-empty" value="@startTime.ToString("h:mm tt")" />
                 }
+                */
+                
+                @Ajax.RawActionLink(
+                    string.Format("<div class=\"col-md-12 text-center time-slot-empty\"><h4>" +
+                        startTime.ToString("h:mm tt") +
+                        "</h4></div>"),
+                    "SelectTime",
+                    "Booking",
+                    new { date = startTime, bookings = Model.bookings, roomID = Model.roomID },
+                    new AjaxOptions
+                    {
+                        HttpMethod = "GET",
+                        InsertionMode = InsertionMode.ReplaceWith,
+                        UpdateTargetId = "day-schedule",
+                        OnComplete = null
+                    },
+                    new
+                    {
+                        @class = "ajax-raw-action-link"
+                    }
+                )
             }
-            else {                
+            else
+            {
                 <div class="col-md-12 text-center time-slot-empty">
                     <h4>@startTime.ToString("h:mm tt")</h4>                
                 </div>                    

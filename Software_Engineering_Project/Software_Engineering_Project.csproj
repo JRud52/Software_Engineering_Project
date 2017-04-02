@@ -249,7 +249,6 @@
     <Content Include="Views\Rooms\Edit.cshtml" />
     <Content Include="Views\Rooms\Index.cshtml" />
     <Content Include="Views\Shared\DaySchedule.cshtml" />
-    <Content Include="Views\Shared\FacultyDashboard.cshtml" />
     <Content Include="Views\Shared\GeneralRoomQuery.cshtml" />
     <Content Include="Views\Shared\SpecificRoomQuery.cshtml" />
     <Content Include="Views\Shared\RoomCalendar.cshtml" />
@@ -262,6 +261,7 @@
     <Content Include="Views\Shared\BookingConflict.cshtml" />
     <Content Include="Views\Shared\LoginError.cshtml" />
     <Content Include="Views\Shared\UserAdd.cshtml" />
+    <Content Include="Views\Shared\ExtendBookingError.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

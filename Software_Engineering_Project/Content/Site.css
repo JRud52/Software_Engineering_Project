@@ -125,3 +125,34 @@ th {
 .w-100 {
     width: 100% !important;
 }
+
+.error-message {
+    color: red;
+}
+
+.ajax-raw-action-link .calendar-day-header {
+   background: #337ab7;
+}
+
+.ajax-raw-action-link:hover {
+    text-decoration: none;
+}
+
+.ajax-raw-action-link .calendar-day-header:hover {    
+    background: #222222;
+}
+
+.ajax-raw-action-link .time-slot-booked,
+.ajax-raw-action-link .time-slot-empty {
+    color: black;
+}
+
+.ajax-raw-action-link .time-slot-empty:hover {
+    color: white;
+    background: #222222;
+}
+
+
+a:visited {
+    text-decoration: none;
+}

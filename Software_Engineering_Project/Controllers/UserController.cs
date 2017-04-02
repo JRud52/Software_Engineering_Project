@@ -54,6 +54,7 @@ namespace Software_Engineering_Project.Controllers
                     reader.Read();
                     if (hash == reader[4].ToString())
                     {
+                        user.id = (int)reader[0];
                         user.email = reader[1].ToString();
                         user.name = reader[2].ToString();
                         user.privilage = (int)reader[3];
@@ -91,7 +92,7 @@ namespace Software_Engineering_Project.Controllers
                         else
                         {
                             reader.Close();
-                            queryString = "SELECT * FROM Bookings WHERE userID='" + user.id + "'";
+                            queryString = "SELECT * FROM bookings WHERE userID='" + user.id + "'";
                             command = new SqlCommand(queryString, connection);
                             reader = command.ExecuteReader();
 
@@ -119,8 +120,7 @@ namespace Software_Engineering_Project.Controllers
                     Debug.WriteLine(ex.Message);
                 }
             }
-
-            // show the passed data in a seperate page.
+            
             return View("LoginError");
         }
 
