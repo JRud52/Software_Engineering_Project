@@ -1,39 +1,8 @@
 ﻿@model Software_Engineering_Project.Models.Rooms
 
 <div id="room-query-form">
-
-    <h4>
-        Don't know the room you want? <br />
-        @using Software_Engineering_Project.App_Code
-        @Ajax.RawActionLink(
-            string.Format("<button class=\"btn btn-primary btn-xs\">Search all Rooms</button>"),
-            "GeneralRoomSearch",
-            "Booking",
-            new AjaxOptions
-            {
-                HttpMethod = "GET",
-                InsertionMode = InsertionMode.ReplaceWith,
-                UpdateTargetId = "room-query-form",
-                OnComplete = null
-            }
-        )
-    </h4>
-    
-    <br />
-
-
-    @{
-        using (Html.BeginForm("SelectRoom", "Booking", FormMethod.Post))
-        {
-            <label>Room ID</label>
-            @Html.TextBoxFor(model => model.id, new { @type = "number", @class = "form-control", @id = "room-id" })
-
-            <br />
-            <input type="submit" class="w-100 btn btn-primary btn-lg" value="Book" />
-        }
-    }
-
-    <br />
+    <h3 class="text-center">Choose a Room</h3>
+    @Html.Partial("SpecificRoomQueryForm")
 </div>
 
 

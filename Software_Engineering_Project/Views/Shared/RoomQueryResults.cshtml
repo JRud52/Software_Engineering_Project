@@ -1,0 +1,41 @@
+﻿@model Software_Engineering_Project.Models.RoomSearchModel
+
+<div class="row" id="app-content">
+
+    <div class="col-md-3">
+        <h3>
+            Need to refine your search? <br />
+            @using Software_Engineering_Project.App_Code
+            @Ajax.RawActionLink(
+            string.Format("<button class=\"btn btn-primary btn-xs\">Search all Rooms</button>"),
+            "GeneralRoomSearch",
+            "Booking",
+            new AjaxOptions
+            {
+                HttpMethod = "GET",
+                InsertionMode = InsertionMode.ReplaceWith,
+                UpdateTargetId = "app-content",
+                OnComplete = null
+            }
+        )
+        </h3>
+    </div>
+
+    <div class="col-md-6 text-center">
+        <h3>Select One of the Following Rooms Which Matched Your Search</h3>
+    </div>
+
+    <div class="col-md-3 text-center">        
+    </div>
+
+
+    <div class="col-md-12 text-center">
+        @{
+            foreach (Software_Engineering_Project.Models.Rooms singleRoom in Model.rooms)
+            {               
+                @Html.ActionLink("" + singleRoom.id, "SelectRoom", "Booking", new { roomID = singleRoom.id }, new { @class = "w-100 btn btn-primary btn-lg" })
+            }
+         }
+    </div>
+
+</div>

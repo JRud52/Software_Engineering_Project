@@ -25,10 +25,13 @@
                         <p>Start - End Time</p>
                     </div>
                     <div class="col-md-3">
-                        @Html.ActionLink("Release", "ReleaseRoom", "Booking", new { @class = "btn btn-primary" })
+                        @Html.ActionLink("Release", "ReleaseRoom", "Booking", new { @class = "w-100 btn btn-primary" })                                              
                     </div>
-                    <div class="col-md-12">
+                    <div class="col-md-9">
                         <p>Description</p>
+                    </div>
+                    <div class="col-md-3">
+                        @Html.ActionLink("Extend", "ExtendBooking", "Booking", new { @class = "w-100 btn btn-primary" })
                     </div>
                 </div>   
             </div> 
