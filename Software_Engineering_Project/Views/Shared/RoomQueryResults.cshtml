@@ -34,6 +34,8 @@
             foreach (Software_Engineering_Project.Models.Rooms singleRoom in Model.rooms)
             {               
                 @Html.ActionLink("" + singleRoom.id, "SelectRoom", "Booking", new { roomID = singleRoom.id }, new { @class = "w-100 btn btn-primary btn-lg" })
+                <br />
+                <br />
             }
          }
     </div>

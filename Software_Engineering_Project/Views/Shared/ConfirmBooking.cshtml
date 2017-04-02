@@ -14,7 +14,7 @@
             @Html.HiddenFor(model => model.endTime)
             @Html.HiddenFor(model => model.roomID)
             <label>Provide a description of your room usage:</label>
-            @Html.TextAreaFor(model => model.description, new { @type = "text", @class = "w-100 form-control", @id = "description" })
+            @Html.TextAreaFor(model => model.description, new { @type = "text", @class = "w-100 form-control", @id = "description", @maxlength=50 })
             <br />
 
                 

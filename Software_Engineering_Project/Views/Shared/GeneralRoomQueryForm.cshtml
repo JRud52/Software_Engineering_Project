@@ -26,12 +26,6 @@
         @Html.TextBoxFor(model => model.capacity, new { @type = "number", @class = "form-control", @id = "capacity" })
         <br />
 
-        <!--
-        <label>Type</label>
-        //Replace this number input with checkboxes for each possilbe descriptor which will be queried from the DB
-        Html.TextBoxFor(model => model.descriptorID, new { type = "number", class = "form-control", id = "descriptor" })
-        -->
-
         @Html.DropDownListFor(model => model.descriptor, new SelectList(Model.descriptors), "Select a Room Type", new { @class = "form-control" })
 
         <br />

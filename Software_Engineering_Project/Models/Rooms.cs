@@ -13,7 +13,7 @@ namespace Software_Engineering_Project.Models
         public string descriptor { get; set; }
         public Rooms() {
             capacity = 0;
-            descriptors = new List<String>() { "Bio Lab", "Computer Lab", "Lecture Hall" };
+            descriptors = new List<String>() { "Bio Lab", "Computer Lab", "Regular Classroom" };
         }
     }
 }

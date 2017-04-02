@@ -28,7 +28,7 @@ namespace Software_Engineering_Project.Controllers
             ConnectionStringSettings settings = ConfigurationManager.ConnectionStrings["soft_db"];
             string connectionString = settings.ConnectionString;
 
-            string commandString = "DELETE * FROM bookings WHERE id='" + bookingID + "'";
+            string commandString = "DELETE FROM bookings WHERE id='" + bookingID + "'";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -53,14 +53,19 @@ namespace Software_Engineering_Project.Controllers
                     }
                 }
 
-                return View("ExtendBookingError", new Tuple<Models.Users, Models.Calendar>((Models.Users)Session["user"], (Models.Calendar)Session["calendar"]));
+                return View("UserDashboard", new Tuple<Models.Users, Models.Calendar>((Models.Users)Session["user"], (Models.Calendar)Session["calendar"]));
             }
 
         }
 
-        public ActionResult ExtendBooking(int bookingID, int roomID, System.DateTime endTime)
+        public ActionResult ExtendBooking(int bookingID, int roomID, System.DateTime endTime, string description)
         {
-          
+
+            if (endTime.Hour > 20) {
+                ViewData["error-message"] = "The last booking of the day is 8:30pm";
+                return View("ExtendBookingError", new Tuple<Models.Users, Models.Calendar>((Models.Users)Session["user"], (Models.Calendar)Session["calendar"]));
+            }
+
             ConnectionStringSettings settings = ConfigurationManager.ConnectionStrings["soft_db"];
             string connectionString = settings.ConnectionString;
 
@@ -77,26 +82,53 @@ namespace Software_Engineering_Project.Controllers
 
                     if (reader.HasRows)
                     {
+                        ViewData["error-message"] = "Someone has already reserved the room during that time.";
                         return View("ExtendBookingError", new Tuple<Models.Users, Models.Calendar>((Models.Users)Session["user"], (Models.Calendar)Session["calendar"]));
                     }
                     else
                     {
                         reader.Close();
 
+                        Models.Bookings booking = new Models.Bookings();
+                        booking.startTime = endTime;
+                        booking.endTime = endTime.AddHours(1.5);
+                        booking.userID = ((Models.Users)Session["user"]).id;
+                        booking.roomID = roomID;
+                        booking.description = "EXTENSION: Original Description - " + description;
+
+                        string sqlCommand = "INSERT INTO Bookings VALUES(" +
+                            "@userID, " +
+                            "@startTime, " +
+                            "@endTime, " +
+                            "@roomID, " +
+                            "@desc)";
+
+                        command = new SqlCommand(sqlCommand, connection);
+                        command.Parameters.Add("@userID", SqlDbType.Int);
+                        command.Parameters["@userID"].Value = booking.userID;
+
+                        command.Parameters.Add("@startTime", SqlDbType.DateTime);
+                        command.Parameters["@startTime"].Value = booking.startTime;
+
+
+                        command.Parameters.Add("@endTime", SqlDbType.DateTime);
+                        command.Parameters["@endTime"].Value = booking.endTime;
+
+                        command.Parameters.Add("@desc", SqlDbType.VarChar);
+                        command.Parameters["@desc"].Value = booking.description;
+
+                        command.Parameters.Add("@roomID", SqlDbType.Int);
+                        command.Parameters["@roomID"].Value = booking.roomID;
+
+                        command.ExecuteNonQuery();
+
                         queryString = "UPDATE bookings SET endTime='" + endTime.AddHours(1.5) + "' WHERE id='" + bookingID + "'";
                         command = new SqlCommand(queryString, connection);
                         command.ExecuteNonQuery();
 
-                        foreach (Models.Bookings booking in ((Models.Calendar)Session["calendar"]).bookings)
-                        {
-                            if (booking.id == bookingID)
-                            {
-                                booking.endTime = booking.endTime.AddHours(1.5);
-                                break;
-                            }
-                        }
+                        ((Models.Calendar)Session["calendar"]).bookings.Add(booking);
 
-                        return View("ExtendBookingError", new Tuple<Models.Users, Models.Calendar>((Models.Users)Session["user"], (Models.Calendar)Session["calendar"]));
+                        return View("UserDashboard", new Tuple<Models.Users, Models.Calendar>((Models.Users)Session["user"], (Models.Calendar)Session["calendar"]));
                     }
                 }
                 catch (Exception ex)
@@ -117,7 +149,7 @@ namespace Software_Engineering_Project.Controllers
             ConnectionStringSettings settings = ConfigurationManager.ConnectionStrings["soft_db"];
             string connectionString = settings.ConnectionString;
 
-            string queryString = "SELECT * FROM Rooms WHERE Capacity>='" + room.capacity + "' AND descriptor='" + room.descriptor + "'";
+            string queryString = "SELECT * FROM Rooms WHERE Capacity>='" + room.capacity + "' AND UPPER(descriptor)='" + room.descriptor.ToUpper() + "'";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -158,6 +190,7 @@ namespace Software_Engineering_Project.Controllers
             }            
         }
 
+        /*
         [HttpPost]
         public ActionResult SelectRoom(Models.Rooms room)
         {
@@ -211,6 +244,7 @@ namespace Software_Engineering_Project.Controllers
                 return View("RoomCalendar", cal);
             }          
         }
+        */
 
         public ActionResult SelectRoom(int roomID)
         {
@@ -247,7 +281,7 @@ namespace Software_Engineering_Project.Controllers
                     reader.Close();
                     queryString = "SELECT * FROM bookings WHERE roomID='" + roomID + "'";
                     command = new SqlCommand(queryString, connection);
-                    command.ExecuteReader();
+                    reader = command.ExecuteReader();
 
                     if (reader.HasRows)
                     {
@@ -273,20 +307,7 @@ namespace Software_Engineering_Project.Controllers
                 return View("RoomCalendar", cal);
             }
         }
-/*
-        [HttpPost]
-        public ActionResult SelectTime(Models.Calendar cal) {
-            Models.Bookings booking = new Models.Bookings();
 
-            booking.startTime = cal.date;
-            booking.endTime = cal.date.AddHours(1.5);
-            booking.roomID = cal.roomID;
-            booking.id = -1;
-            booking.userID = ((Models.Users)Session["user"]).id;
-
-            return View("ConfirmBooking", booking);
-        }
-*/
         public ActionResult SelectTime(System.DateTime date, List<Models.Bookings> bookings, int roomID)
         {
 
@@ -350,7 +371,7 @@ namespace Software_Engineering_Project.Controllers
                     "@startTime, " +
                     "@endTime, " +
                     "@roomID, " +
-                    "'@desc')";
+                    "@desc)";
 
                 command = new SqlCommand(sqlCommand, connection);
                 command.Parameters.Add("@userID", SqlDbType.Int);
@@ -370,7 +391,9 @@ namespace Software_Engineering_Project.Controllers
                 command.Parameters["@roomID"].Value = booking.roomID;
 
                 command.ExecuteNonQuery();
-                
+
+                ((Models.Calendar)Session["calendar"]).bookings.Add(booking);
+
                 return View("UserDashboard", new Tuple<Models.Users, Models.Calendar>((Models.Users)Session["user"], (Models.Calendar)Session["calendar"]));
             }
         }

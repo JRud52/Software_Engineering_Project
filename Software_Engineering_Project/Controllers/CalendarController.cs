@@ -12,7 +12,6 @@ namespace Software_Engineering_Project.Controllers
     {
         public PartialViewResult UpdateCalendar(System.DateTime currentCalendarDate, bool next)
         {
-
             if (next)
             {
                 currentCalendarDate = currentCalendarDate.AddMonths(1);
@@ -138,6 +137,7 @@ namespace Software_Engineering_Project.Controllers
                         booking.startTime = (System.DateTime)reader[2];
                         booking.endTime = (System.DateTime)reader[3];
                         booking.roomID = (int)reader[4];
+                        booking.description = (string)reader[5];
 
                         cal.bookings.Add(booking);
                     }
