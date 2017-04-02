@@ -13,6 +13,7 @@ namespace Software_Engineering_Project.Models
         public int privilage { get; set; }
         public List<Users> users{ get; set; }
         public List<Rooms> rooms { get; set; }
-
+        public Users editUser { get; set; }
+        public Users editUserNew { get; set; }
     }
 }
