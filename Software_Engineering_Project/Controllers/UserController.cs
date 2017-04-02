@@ -125,6 +125,7 @@ namespace Software_Engineering_Project.Controllers
                                 booking.startTime = (System.DateTime)reader[2];
                                 booking.endTime = (System.DateTime)reader[3];
                                 booking.roomID = (int)reader[4];
+                                booking.description = (string)reader[5];
 
                                 cal.bookings.Add(booking);
                             }
@@ -306,6 +307,25 @@ namespace Software_Engineering_Project.Controllers
             }
             ((Models.AdminDashModel)Session["adminDash"]).rooms.Add(room);
             return View("AdminDashboard", (Models.AdminDashModel)Session["adminDash"]);
+        }
+
+
+        public ActionResult Logout()
+        {
+            Session.Clear();
+            return RedirectToAction("Index", "Home", null);
+        }
+
+        public ActionResult GetDashboard()
+        {
+            if (((Models.Users)Session["user"]).privilage == 3)
+            {
+                return View("AdminDashboard", (Models.AdminDashModel)Session["adminDash"]);
+            }
+            else
+            {
+                return View("UserDashboard", new Tuple<Models.Users, Models.Calendar>((Models.Users)Session["user"], (Models.Calendar)Session["calendar"]));
+            }
         }
 
     }

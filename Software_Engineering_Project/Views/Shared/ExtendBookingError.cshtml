@@ -57,7 +57,15 @@
         }
 
         <div class="col-md-12 text-center">
-            <p class="error-message">Unable to extend this booking, someone has already reserved the next timeslot for this room. Consider booking a new room instead.</p>
+            <p class="error-message">
+                Unable to extend this booking. 
+                @{ 
+                    if (ViewData["error-message"] != null)
+                    {
+                        @ViewData["error-message"]
+                    }
+                }
+            </p>
         </div>
 
         <div class="col-md-12 text-center">

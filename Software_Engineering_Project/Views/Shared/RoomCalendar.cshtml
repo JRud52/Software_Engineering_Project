@@ -2,13 +2,13 @@
 
 <div class="col-md-12" id="calendar">
     <div class="row">        
-        <div class="col-md-12 text-center">
+        <div class="col-xs-12 text-center">
             <h2>Room @Model.roomID </h2>
         </div>        
     </div>
 
     <div class="row">
-        <div class="col-md-3 text-right">
+        <div class="col-xs-3 text-right">
             <h3>
                 @using Software_Engineering_Project.App_Code
                 @Ajax.RawActionLink(
@@ -27,11 +27,11 @@
             </h3>
         </div>
 
-        <div class="col-md-6 text-center">
+        <div class="col-xs-6 text-center">
             <h3>@String.Format("{0:MMMM yyyy}", Model.date, Model.date.Year)</h3>
         </div>
 
-        <div class="col-md-3 text-left">
+        <div class="col-xs-3 text-left">
             <h3>
                 @using Software_Engineering_Project.App_Code
                 @Ajax.RawActionLink(
@@ -98,8 +98,13 @@
                             }
                             else{
                                 
-                                           
-                                @Ajax.RawActionLink(
+                                <a class="ajax-raw-action-link" href="@Url.Action("GetRoomDaySchedule", "Calendar", new { date = currDay, bookings = Model.bookings, roomID = Model.roomID})">
+                                    <div class="row text-center calendar-day-header">                                        
+                                        @String.Format("{0:ddd} ", currDay.DayOfWeek.ToString().Substring(0, 3)) @currDay.Day
+                                    </div>
+                                </a>    
+                                <!--
+                                Ajax.RawActionLink(
                                     string.Format("<div class=\"row text-center calendar-day-header\">" +
                                         String.Format("{0:ddd} ", currDay.DayOfWeek.ToString().Substring(0, 3)) +
                                         currDay.Day +
@@ -115,10 +120,10 @@
                                         OnComplete = null
                                     },
                                     new {
-                                        @class = "ajax-raw-action-link"
+                                        class = "ajax-raw-action-link"
                                     }
                                 )   
-                                                                     
+                                    -->                                              
                             }
                         }
 
@@ -136,7 +141,7 @@
                         <div class="row">
                             @{
 
-                                System.DateTime startTime = new System.DateTime(Model.date.Year, Model.date.Month, Model.date.Day, 8, 30, 0);
+                                System.DateTime startTime = new System.DateTime(currDay.Year, currDay.Month, currDay.Day, 8, 30, 0);
 
                                 for (int k = 0; k < 9; k++)
                                 {
@@ -145,7 +150,7 @@
                                     {
                                         foreach (Software_Engineering_Project.Models.Bookings booking in Model.bookings)
                                         {
-                                            if (booking.startTime == startTime)
+                                            if (booking.startTime.Equals(startTime) || booking.startTime.CompareTo(startTime) < 0 && booking.endTime.CompareTo(startTime) > 0)
                                             {
                                                 found = true;
                                             }
