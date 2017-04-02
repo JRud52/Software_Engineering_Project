@@ -1,11 +1,14 @@
-﻿@model Tuple<Software_Engineering_Project.Models.AdminDashModel, Software_Engineering_Project.Models.Calendar>
+﻿@model Software_Engineering_Project.Models.AdminDashModel
 
 <div class="row" id="app-content">
-
-    <div class="col-md-5">
+    <div class="col-md-12">
         <h2>Admin Dashboard</h2>
-        <h4>Hello @Model.Item1.name</h4>
+        <h4>Hello @Model.name</h4>
         <br />
+    </div>
+
+    <div class="col-md-7">
+        
         <h5>Users</h5>
         <table>
             <tr>
@@ -15,8 +18,7 @@
                 <th>PRIVILAGE</th>
                 <th>EDIT</th>
             </tr>
-            @{bool x = false;}
-            @foreach (var user in Model.Item1.users)
+            @foreach (var user in Model.users)
             {
                 if (user.privilage < 3) { 
                 <tr>
@@ -32,7 +34,6 @@
                 </tr>
                 }
             }
-            @{ x = true; }
 
         </table>
 
@@ -42,8 +43,32 @@
 
     </div>
 
-    <div class="col-md-7">
-        @Html.Partial("Calendar", Model.Item2)        
+    <div class="col-md-5">
+        <h5>Rooms</h5>
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>DESCRIPTION</th>
+                <th>CAPACITY</th>
+                <th>EDIT</th>
+            </tr>
+            @foreach (var room in Model.rooms)
+            {
+                    <tr>
+                        <td>@room.id</td>
+                        <td>@room.descriptor</td>
+                        <td>@room.capacity</td>
+                        <td>
+                            <button class="form-control showButton"></button>
+                        </td>
+                    </tr>
+            }
+
+        </table>
+
+        <br />
+        <input type="button" class="form-control showButton" value="Add room" onclick="location.href='@Url.Action("RoomAdd", "User")'" />
+        <br />
     </div>
 
 </div>

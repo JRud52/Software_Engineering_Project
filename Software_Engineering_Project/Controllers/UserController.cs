@@ -73,6 +73,7 @@ namespace Software_Engineering_Project.Controllers
                             dash.email = user.email;
                             dash.privilage = user.privilage;
                             dash.users = new List<Models.Users>();
+                            dash.rooms = new List<Models.Rooms>();
 
                             queryString = "SELECT * FROM Users";
                             command = new SqlCommand(queryString, connection);
@@ -87,7 +88,25 @@ namespace Software_Engineering_Project.Controllers
                                 tempUser.privilage = (int)reader[3];
                                 dash.users.Add(tempUser);
                             }
-                            return View("AdminDashboard", new Tuple<Models.AdminDashModel, Models.Calendar>(dash, cal));
+                            reader.Close();
+
+                            queryString = "SELECT * FROM Rooms";
+                            command = new SqlCommand(queryString, connection);
+                            reader = command.ExecuteReader();
+
+                            while (reader.Read())
+                            {
+                                Models.Rooms tempRoom = new Models.Rooms();
+                                tempRoom.id = (int)reader[0];
+                                tempRoom.descriptor = (string)reader[1];
+                                tempRoom.capacity = (int)reader[2];
+                                dash.rooms.Add(tempRoom);
+                            }
+                            reader.Close();
+                            
+                            Session["calendar"] = cal;
+                            Session["adminDash"] = dash;
+                            return View("AdminDashboard", dash);
                         }
                         else
                         {
@@ -129,6 +148,11 @@ namespace Software_Engineering_Project.Controllers
             return View();
         }
 
+        public ActionResult RoomAdd()
+        {
+            return View();
+        }
+
         [HttpPost]
         public ActionResult UserAddMethod(Models.Users user)
         {
@@ -147,29 +171,68 @@ namespace Software_Engineering_Project.Controllers
             {
                 hashbytes = algorithm.ComputeHash(bytes);
             }
-            string hash = Convert.ToBase64String(hashbytes);
+            user.hash = Convert.ToBase64String(hashbytes);
 
 
-            string queryString = "INSERT INTO Users (email, name, privilage, hash) VALUES (" + user.email + ", " + user.name + ", " + user.privilage + ", " + hash + ")"; // put SELECT commands here
+            string insertString = "INSERT INTO Users (email, name, privilage, hash) VALUES ('" + user.email + "', '" + user.name + "', " + user.privilage + ", '" + user.hash + "')"; // put SELECT commands here
+            string selectString = "SELECT * FROM Users WHERE email = '" + user.email + "'";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                SqlCommand command = new SqlCommand(queryString, connection);
+                SqlCommand command = new SqlCommand(insertString, connection);
+                SqlCommand command2 = new SqlCommand(selectString, connection);
 
                 try
                 {
                     connection.Open();
-                    IAsyncResult result = command.BeginExecuteNonQuery();
                     command.ExecuteNonQuery();
-                    command.EndExecuteNonQuery(result);
+                    SqlDataReader reader = command2.ExecuteReader();
+                    reader.Read();
+                    user.id = (int)reader[0];
                 }
                 catch (Exception ex)
                 {
                     Debug.WriteLine(ex.Message);
                 }
+
+            }
+            ((Models.AdminDashModel)Session["adminDash"]).users.Add(user);
+            return View("AdminDashboard", (Models.AdminDashModel)Session["adminDash"]);
+        }
+
+
+        [HttpPost]
+        public ActionResult RoomAddMethod(Models.Rooms room)
+        {
+
+            ConnectionStringSettings settings = ConfigurationManager.ConnectionStrings["soft_db"];
+            if (settings == null)
+            {
+                return Content("Something went wrong. Try reloading the page.");
             }
 
-            return View("AdminDashboard");
+            string connectionString = settings.ConnectionString;
+
+            string insertString = "INSERT INTO Rooms (id, descriptor, capacity) VALUES (" + room.id + ", '" + room.descriptor + "', " + room.capacity + ")"; // put SELECT commands here
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(insertString, connection);
+
+                try
+                {
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
+                }
+
+            }
+            ((Models.AdminDashModel)Session["adminDash"]).rooms.Add(room);
+            return View("AdminDashboard", (Models.AdminDashModel)Session["adminDash"]);
         }
+
     }
 }
