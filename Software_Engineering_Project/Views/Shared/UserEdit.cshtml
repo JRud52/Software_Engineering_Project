@@ -1,3 +1,25 @@
-﻿@model Software_Engineering_Project.Models.Users
+﻿@model Software_Engineering_Project.Models.AdminDashModel
 
+<div>
+    @{
+        using (Html.BeginForm("UserEditMethod", "User", FormMethod.Post, new { @class = "login" }))
+        {
 
+            @Html.HiddenFor(m => m.editUser.id, new { Value = Model.editUser.id })
+            @Html.HiddenFor(m => m.editUser.name, new { Value = Model.editUser.name })
+            @Html.HiddenFor(m => m.editUser.email, new { Value = Model.editUser.email })
+            @Html.HiddenFor(m => m.editUser.privilage, new { Value = Model.editUser.privilage })
+            @Html.HiddenFor(m => m.editUser.hash, new { Value = Model.editUser.hash })
+
+            @Html.TextBoxFor(m => m.editUserNew.name, new { @type = "text", @class = "form-control", @id = "user-name", @placeholder = "Name", Value = Model.editUser.name })
+            <br />
+            @Html.TextBoxFor(m => m.editUserNew.email, new { @type = "email", @class = "form-control", @id = "user-email", @placeholder = "Email", Value = Model.editUser.email })
+            <br />
+            @Html.TextBoxFor(m => m.editUserNew.hash, new { @type = "password", @class = "form-control", @id = "user-pass", @placeholder = "Password" })
+            <br />
+            @Html.TextBoxFor(m => m.editUserNew.privilage, new { @type = "number", @class = "form-control", @id = "user-priv", @placeholder = "Privilage(1 - user, 2 - faculty)", Value = Model.editUser.privilage, @min = "1", @max = "2" })
+            <br />
+            <input type="submit" class="w-100 btn btn-primary btn-lg" value="Edit User" />
+        }
+    }
+</div>

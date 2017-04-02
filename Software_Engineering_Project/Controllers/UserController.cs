@@ -58,6 +58,7 @@ namespace Software_Engineering_Project.Controllers
                         user.email = reader[1].ToString();
                         user.name = reader[2].ToString();
                         user.privilage = (int)reader[3];
+                        
 
                         Session["user"] = user;
 
@@ -86,6 +87,7 @@ namespace Software_Engineering_Project.Controllers
                                 tempUser.email = (string)reader[1];
                                 tempUser.name = (string)reader[2];
                                 tempUser.privilage = (int)reader[3];
+                                tempUser.hash = (string)reader[4];
                                 dash.users.Add(tempUser);
                             }
                             reader.Close();
@@ -148,6 +150,11 @@ namespace Software_Engineering_Project.Controllers
             return View();
         }
 
+        public ActionResult UserEdit(Models.AdminDashModel dash)
+        {
+            return View(dash);
+        }
+
         public ActionResult RoomAdd()
         {
             return View();
@@ -197,6 +204,73 @@ namespace Software_Engineering_Project.Controllers
 
             }
             ((Models.AdminDashModel)Session["adminDash"]).users.Add(user);
+            return View("AdminDashboard", (Models.AdminDashModel)Session["adminDash"]);
+        }
+
+
+        [HttpPost]
+        public ActionResult UserEditMethod(Models.AdminDashModel user)
+        {
+            
+            ConnectionStringSettings settings = ConfigurationManager.ConnectionStrings["soft_db"];
+            if (settings == null)
+            {
+                return Content("Something went wrong. Try reloading the page.");
+            }
+
+            string connectionString = settings.ConnectionString;
+
+            
+
+            string insertString = "UPDATE Users SET";
+
+            if (user.editUserNew.email != user.editUser.email)
+            {
+                insertString += " email = '" + user.editUserNew.email + "'";
+            }
+            if (user.editUserNew.name != user.editUser.name)
+            {
+                insertString += " name = '" + user.editUserNew.name + "'";
+            }
+            if (user.editUserNew.privilage != user.editUser.privilage)
+            {
+                insertString += " privilage = " + user.editUserNew.privilage;
+            }
+            if (user.editUserNew.hash != null && user.editUserNew.hash != user.editUser.hash)
+            {
+                byte[] bytes = new UTF8Encoding().GetBytes(user.editUserNew.hash);
+                byte[] hashbytes;
+                using (var algorithm = new SHA512Managed())
+                {
+                    hashbytes = algorithm.ComputeHash(bytes);
+                }
+                user.editUserNew.hash = Convert.ToBase64String(hashbytes);
+                insertString += " hash = '" + user.editUserNew.hash + "'";
+            }
+            insertString += " WHERE id = " + user.editUser.id;
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(insertString, connection);
+
+                try
+                {
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
+                }
+
+            }
+            Models.AdminDashModel tempModel = (Models.AdminDashModel)Session["adminDash"];
+
+            int index = tempModel.users.FindIndex(i => i.id == user.editUser.id);
+            user.editUserNew.id = user.editUser.id;
+            tempModel.users[index] = user.editUserNew;
+            Session["adminDash"] = tempModel;
+
             return View("AdminDashboard", (Models.AdminDashModel)Session["adminDash"]);
         }
 

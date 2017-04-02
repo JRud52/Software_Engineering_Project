@@ -20,16 +20,24 @@
             </tr>
             @foreach (var user in Model.users)
             {
-                if (user.privilage < 3) { 
+                if (user.privilage < 3)
+                {
                 <tr>
                     <td>@user.id</td>
                     <td>@user.email</td>
                     <td>@user.name</td>
                     <td>@user.privilage</td>
                     <td>
-                        <button class="form-control showButton"></button>
-                        
+                        @using (Html.BeginForm("UserEdit", "User", FormMethod.Post))
+                        {
+                        @Html.HiddenFor(m => m.editUser.id, new { Value = @user.id })
+                        @Html.HiddenFor(m => m.editUser.name, new { Value = @user.name })
+                        @Html.HiddenFor(m => m.editUser.email, new { Value = @user.email })
+                        @Html.HiddenFor(m => m.editUser.privilage, new { Value = @user.privilage })
+                        @Html.HiddenFor(m => m.editUser.hash, new { Value = @user.hash })
 
+                        <input type="submit" class="btn btn-primary" value="+" />
+                        }
                     </td>
                 </tr>
                 }
