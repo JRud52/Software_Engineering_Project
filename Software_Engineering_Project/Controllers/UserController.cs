@@ -169,7 +169,7 @@ namespace Software_Engineering_Project.Controllers
                 }
             }
 
-            return ();
+            return View("AdminDashboard");
         }
     }
 }
