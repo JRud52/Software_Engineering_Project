@@ -67,6 +67,7 @@ th, td {
 
 th {
     text-align: center;
+    background-color:lightgray;
 }
 
 @media (min-width: 768px){

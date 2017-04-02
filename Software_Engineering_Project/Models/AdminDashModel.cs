@@ -12,6 +12,7 @@ namespace Software_Engineering_Project.Models
         public string email { get; set; }
         public int privilage { get; set; }
         public List<Users> users{ get; set; }
+        public List<Rooms> rooms { get; set; }
 
     }
 }
