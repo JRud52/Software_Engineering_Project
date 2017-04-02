@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Data.SqlClient;
+using System.Configuration;
 
 namespace Software_Engineering_Project.Controllers
 {
@@ -31,6 +33,121 @@ namespace Software_Engineering_Project.Controllers
         }
 
 
+        public PartialViewResult UpdateRoomCalendar(System.DateTime currentCalendarDate, int roomID, bool next)
+        {
+            ConnectionStringSettings settings = ConfigurationManager.ConnectionStrings["soft_db"];
+            string connectionString = settings.ConnectionString;
+
+            string queryString = "SELECT * FROM Bookings WHERE roomID='" + roomID + "'";
+
+            Models.Calendar cal = new Models.Calendar();
+            cal.roomID = roomID;
+            if (next)
+            {
+                currentCalendarDate = currentCalendarDate.AddMonths(1);
+            }
+            else
+            {
+                if (currentCalendarDate.Month == 1)
+                {
+                    currentCalendarDate = currentCalendarDate.AddYears(-1);
+                    currentCalendarDate = currentCalendarDate.AddMonths(11);
+                }
+                else
+                {
+                    currentCalendarDate = currentCalendarDate.AddMonths(-1);
+                }
+            }
+
+            cal.date = currentCalendarDate;
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(queryString, connection);
+
+                try
+                {
+                    connection.Open();
+                    SqlDataReader reader = command.ExecuteReader();
+                                              
+                    while (reader.Read())
+                    {
+                        Models.Bookings booking = new Models.Bookings();
+                        booking.id = (int)reader[0];
+                        booking.userID = (int)reader[1];
+                        booking.startTime = (System.DateTime)reader[2];
+                        booking.endTime = (System.DateTime)reader[3];
+                        booking.roomID = (int)reader[4];
+
+                        cal.bookings.Add(booking);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    
+                }
+
+                return PartialView("RoomCalendar", cal);
+            }
+        }
+
+        public PartialViewResult UpdateCalendar(System.DateTime currentCalendarDate, int userID, bool next)
+        {
+            ConnectionStringSettings settings = ConfigurationManager.ConnectionStrings["soft_db"];
+            string connectionString = settings.ConnectionString;
+
+            string queryString = "SELECT * FROM Bookings WHERE userID='" + userID + "'";
+
+            Models.Calendar cal = new Models.Calendar();
+            if (next)
+            {
+                currentCalendarDate = currentCalendarDate.AddMonths(1);
+            }
+            else
+            {
+                if (currentCalendarDate.Month == 1)
+                {
+                    currentCalendarDate = currentCalendarDate.AddYears(-1);
+                    currentCalendarDate = currentCalendarDate.AddMonths(11);
+                }
+                else
+                {
+                    currentCalendarDate = currentCalendarDate.AddMonths(-1);
+                }
+            }
+
+            cal.date = currentCalendarDate;
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(queryString, connection);
+
+                try
+                {
+                    connection.Open();
+                    SqlDataReader reader = command.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        Models.Bookings booking = new Models.Bookings();
+                        booking.id = (int)reader[0];
+                        booking.userID = (int)reader[1];
+                        booking.startTime = (System.DateTime)reader[2];
+                        booking.endTime = (System.DateTime)reader[3];
+                        booking.roomID = (int)reader[4];
+
+                        cal.bookings.Add(booking);
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return PartialView("Calendar", cal);
+            }
+        }
+
         public PartialViewResult GetCalendar(System.DateTime currentCalendarDate)
         {                            
             return PartialView("Calendar", new Models.Calendar() { date = currentCalendarDate });
@@ -38,9 +155,20 @@ namespace Software_Engineering_Project.Controllers
 
         public PartialViewResult GetDaySchedule(System.DateTime date)
         {
-
             return PartialView("DaySchedule", new Models.Calendar() { date = date });
-        }
+        }        
 
+        [HttpPost]
+        public ActionResult GetDayScheduleByCalendar(Models.Calendar cal)
+        {
+            
+            for(int i = 0; i < cal.bookings.Count; i++) {                    
+                if (cal.bookings[i] == null) {
+                    cal.bookings.RemoveAt(i);
+                }
+            }
+            
+            return View("DaySchedule", cal);
+        }
     }
 }

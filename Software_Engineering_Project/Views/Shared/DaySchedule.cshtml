@@ -1,34 +1,20 @@
 ﻿@model Software_Engineering_Project.Models.Calendar
 
 <div class="col-md-12" id="day-schedule">
-    <div class="row">
-        <div class="text-left col-md-2">
-            <h3>
-                @using Software_Engineering_Project.App_Code
-                @Ajax.RawActionLink(
-                    //string.Format("<div class=\"col-md-6\"><span class=\"glyphicon glyphicon-menu-left\"></span></div><div class=\"col-md-6\">" + Model.date.ToString("MMMM") + "</div>"),
-                    string.Format("<div class=\"col-md-6\"><span class=\"glyphicon glyphicon-menu-left\"></span>"),
-                    "GetCalendar",
-                    "Calendar",
-                    new { currentCalendarDate = Model.date },
-                    new AjaxOptions
-                    {
-                        HttpMethod = "GET",
-                        InsertionMode = InsertionMode.ReplaceWith,
-                        UpdateTargetId = "day-schedule",
-                        OnComplete = null
-                    }
-                )
-            </h3>
-        </div>
-        <div class="text-center col-md-8">
-            <h3>@Model.date.ToString("ddd MMMM dd, yyyy")</h3>
+    <div class="row">       
+        <div class="col-md-12 text-center">
+            <h2>Room @Model.roomID</h2>
         </div>        
-        <div class="text-left col-md-2"></div>
+    </div>
+
+    <div class="row">        
+        <div class="text-center col-md-12">
+            <h3>@Model.date.ToString("ddd MMMM dd, yyyy")</h3>
+        </div>                
     </div>
 
     @{         
-        System.DateTime startTime = new System.DateTime(1, 1, 1, 8, 30, 0);
+        System.DateTime startTime = new System.DateTime(Model.date.Year, Model.date.Month, Model.date.Day, 8, 30, 0);
     }
 
     @for (int i = 0; i < 9; i++)
@@ -47,14 +33,28 @@
 
         if (found)
         {
-            <div class="col-md-12 text-center" style="background:red; height:50px;">
-                @startTime.ToString("h:mm tt")
+            <div class="col-md-12 text-center time-slot-booked">               
+                <h4>@startTime.ToString("h:mm tt")</h4>
             </div>
         }
-        else {
-            <div class="col-md-12 text-center" style="background:green; height:50px;">
-                @startTime.ToString("h:mm tt")
-            </div>
+        else
+        {
+            
+            if (Session["user"] != null && startTime.CompareTo(System.DateTime.Now) < 0)
+            {
+                using (Html.BeginForm("SelectTime", "Booking", FormMethod.Post))
+                {
+                    @Html.HiddenFor(model => model.date)
+                    @Html.HiddenFor(model => model.bookings)
+                    @Html.HiddenFor(model => model.roomID)
+                    <input type="submit" class="col-md-12 text-center time-slot-empty" value="@startTime.ToString("h:mm tt")" />
+                }
+            }
+            else {                
+                <div class="col-md-12 text-center time-slot-empty">
+                    <h4>@startTime.ToString("h:mm tt")</h4>                
+                </div>                    
+            }
         }
 
         startTime = startTime.AddHours(1.5);

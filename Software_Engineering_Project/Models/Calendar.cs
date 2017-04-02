@@ -9,6 +9,6 @@ namespace Software_Engineering_Project.Models
     {
         public DateTime date { get; set; }
         public List<Bookings> bookings { get; set; }
-        public Rooms room { get; set; }
+        public int roomID { get; set; }
     }
 }

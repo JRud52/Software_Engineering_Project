@@ -8,7 +8,7 @@
                     string.Format("<span class=\"glyphicon glyphicon-menu-left\"></span>"), 
                     "UpdateCalendar",
                     "Calendar",
-                    new { currentCalendarDate = Model.date, next = false },
+                    new { currentCalendarDate = Model.date, ((Software_Engineering_Project.Models.Users)Session["user"]).id, next = false },
                     new AjaxOptions
                     {
                         HttpMethod = "GET",
@@ -29,7 +29,7 @@
                     string.Format("<span class=\"glyphicon glyphicon-menu-right\"></span>"),
                     "UpdateCalendar",
                     "Calendar",
-                    new { currentCalendarDate = Model.date, next = true },
+                    new { currentCalendarDate = Model.date, ((Software_Engineering_Project.Models.Users)Session["user"]).id, next = true },
                     new AjaxOptions
                     {
                         HttpMethod = "GET",
@@ -48,8 +48,7 @@
 
         if (currDay.Month == 12)
         {
-            lastDay = new System.DateTime(Model.date.Year, Model.date.Month, 31);
-            System.Diagnostics.Debug.WriteLine("Last day = " + lastDay);
+            lastDay = new System.DateTime(Model.date.Year, Model.date.Month, 31);           
         }
         else
         {
@@ -77,31 +76,11 @@
 
 
                     <div class="col-md-1 table-bordered calendar-day">
-                        @using Software_Engineering_Project.App_Code
-                        @Ajax.RawActionLink(
-                            string.Format("<div class=\"row text-center calendar-day-header\" style=\"background:#337ab7\">" +
-                                String.Format("{0:ddd} ", currDay.DayOfWeek.ToString().Substring(0, 3)) + 
-                                currDay.Day + 
-                                "</div>"),
-                            "GetDaySchedule",
-                            "Calendar",
-                            new { date = currDay },
-                            new AjaxOptions
-                            {
-                                HttpMethod = "GET",
-                                InsertionMode = InsertionMode.ReplaceWith,
-                                UpdateTargetId = "calendar",
-                                OnComplete = null
-                            }
-                        )
-                        <!--
-                        <div class="row text-center" style="background:#337ab7">
-                            //@String.Format("{0:ddd}", currDay.DayOfWeek.ToString().Substring(0, 3))                           
-                            //@currDay.Day
+                        <div class="row text-center calendar-day-header" style="background:#337ab7">
+                            @String.Format("{0:ddd} ", currDay.DayOfWeek.ToString().Substring(0, 3)) @currDay.Day                             
                         </div>
-                            -->
-
-                        @{                            
+                           
+                        @{
                             currDay = currDay.AddDays(1);
                             if (currDay.Month > lastDay.Month || currDay.Year > lastDay.Year)
                             {
@@ -110,14 +89,15 @@
                         }
 
                         <div class="row">
-                            @{ 
+                            @{
 
                                 System.DateTime startTime = new System.DateTime(1, 1, 1, 8, 30, 0);
 
                                 for (int k = 0; k < 9; k++)
                                 {
                                     bool found = false;
-                                    if(Model.bookings != null) {
+                                    if (Model.bookings != null)
+                                    {
                                         foreach (Software_Engineering_Project.Models.Bookings booking in Model.bookings)
                                         {
                                             if (booking.startTime == startTime)
@@ -129,12 +109,12 @@
 
                                     if (found)
                                     {
-                                        <div class="col-md-12 text-center" style="background:red; height:8.8px;">                                            
+                                        <div class="col-md-12 text-center" style="background:red; height:8.8px;">
                                         </div>
-                                        }
+                                    }
                                     else
                                     {
-                                        <div class="col-lg-12 text-center" style="height:8.8px;">                                            
+                                        <div class="col-lg-12 text-center" style="height:8.8px;">
                                         </div>
                                     }
 

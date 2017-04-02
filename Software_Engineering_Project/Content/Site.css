@@ -21,10 +21,37 @@
     height: 100px;
 }
 
-.calendar-day-header, .calendar-day-header a, .calendar-day-header a:hover{
+.calendar-day-header, .calendar-day-header a, .calendar-day-header a:hover, .calendar-day-header input{
     text-decoration: none; 
     color: white;
 }
+
+.calendar-day-header input {
+    -webkit-appearance: inherit;
+    background: #337ab7;
+    border: none;
+    padding: 0;
+    margin: 0;
+}
+
+.calendar-day-header input:hover {
+    color: white;
+    background: #222222;    
+    height: 50px;
+}
+
+.time-slot-empty {
+    height: 50px;
+    margin: 2px;
+    background: green;
+}
+
+.time-slot-booked {
+    margin: 2px;
+    background: red;
+    height: 50px;
+}
+
 table{
     width:100%;
 }

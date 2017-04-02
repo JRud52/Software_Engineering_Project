@@ -1,7 +1,19 @@
 ﻿@model Software_Engineering_Project.Models.Calendar
-@{
-    ViewBag.Title = "BookingConflict";
-}
 
-<h2>BookingConflict</h2>
+<div class="col-md-12 text-center" id="booking-conflict">
+    <h2>There Was A Conflict With Your Booking</h2>
+    <p>It appears that someone snagged the room at the time you were trying to book.</p>
+
+    @{
+        using (Html.BeginForm("BookConflict", "Booking", FormMethod.Post))
+        {
+            @Html.HiddenFor(model => model.bookings)
+            @Html.HiddenFor(model => model.date)
+            @Html.HiddenFor(model => model.roomID)            
+            <input type="submit" class="w-100 btn btn-primary btn-lg" value="Book" />
+        }
+    }
+</div>
+
+
 

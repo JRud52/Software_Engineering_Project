@@ -22,17 +22,6 @@ namespace Software_Engineering_Project.Controllers
             return View("GeneralRoomQuery", new Models.Rooms());
         }
 
-        
-        public ActionResult AdvanceBookRoom(Models.Calendar cal)
-        {           
-            return View("RoomCalendar", cal);
-        }
-
-        public ActionResult ImmediateBookRoom()
-        {
-
-            return View();
-        }
 
         [HttpPost]
         public ActionResult QueryRoom(Models.Rooms room)
@@ -87,7 +76,7 @@ namespace Software_Engineering_Project.Controllers
         public ActionResult SelectRoom(Models.Rooms room)
         {
             Models.Calendar cal = new Models.Calendar();
-            cal.room = room;
+            cal.roomID = room.id;
             cal.date = System.DateTime.Now;
 
             ConnectionStringSettings settings = ConfigurationManager.ConnectionStrings["soft_db"];
@@ -133,7 +122,7 @@ namespace Software_Engineering_Project.Controllers
                     System.Diagnostics.Debug.WriteLine("SQL error");
                 }
 
-                return View("BookingType", cal);
+                return View("RoomCalendar", cal);
             }          
         }
 
@@ -163,7 +152,7 @@ namespace Software_Engineering_Project.Controllers
                         room.id = roomID;
                         room.descriptor = (string)reader[1];
                         room.capacity = (int)reader[2];
-                        cal.room = room;
+                        cal.roomID = roomID;
                     }
                     else {
                         return View("SpecificRoomQueryError", new Models.Rooms());
@@ -195,16 +184,17 @@ namespace Software_Engineering_Project.Controllers
                     System.Diagnostics.Debug.WriteLine("SQL error");
                 }
 
-                return View("BookingType", cal);
+                return View("RoomCalendar", cal);
             }
         }
 
+        [HttpPost]
         public ActionResult SelectTime(Models.Calendar cal) {
             Models.Bookings booking = new Models.Bookings();
 
             booking.startTime = cal.date;
             booking.endTime = cal.date.AddHours(1.5);
-            booking.roomID = cal.room.id;
+            booking.roomID = cal.roomID;
             booking.id = -1;
             booking.userID = (int)Session["user"];
 
@@ -268,7 +258,12 @@ namespace Software_Engineering_Project.Controllers
                 
                 return View("UserDashboard", new Tuple<Models.Users, Models.Calendar>((Models.Users)Session["user"], (Models.Calendar)Session["calendar"]));
             }
-        }    
-            
+        }
+
+
+        public ActionResult BookConflict(Models.Calendar cal)
+        {
+            return View();
+        }
     }
 }

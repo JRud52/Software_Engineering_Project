@@ -250,7 +250,6 @@
     <Content Include="Views\Rooms\Index.cshtml" />
     <Content Include="Views\Shared\DaySchedule.cshtml" />
     <Content Include="Views\Shared\FacultyDashboard.cshtml" />
-    <Content Include="Views\Shared\BookingType.cshtml" />
     <Content Include="Views\Shared\GeneralRoomQuery.cshtml" />
     <Content Include="Views\Shared\SpecificRoomQuery.cshtml" />
     <Content Include="Views\Shared\RoomCalendar.cshtml" />
