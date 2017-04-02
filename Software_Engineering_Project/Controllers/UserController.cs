@@ -246,7 +246,7 @@ namespace Software_Engineering_Project.Controllers
         {
             if (((Models.Users)Session["user"]).privilage == 3)
             {
-                return View("AdminDashboard");
+                return View("AdminDashboard", (Models.AdminDashModel)Session["adminDash"]);
             }
             else
             {
