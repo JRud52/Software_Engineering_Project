@@ -26,7 +26,7 @@
         {
             foreach (Software_Engineering_Project.Models.Bookings booking in Model.bookings)
             {
-                if (booking.startTime == startTime)
+                if (booking.startTime.Equals(startTime) || booking.startTime.CompareTo(startTime) < 0 && booking.endTime.CompareTo(startTime) > 0)
                 {
                     temp_booking = booking;
                     found = true;
