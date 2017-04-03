@@ -6,6 +6,7 @@ using System.Configuration;
 using System.Security.Cryptography;
 using System.Text;
 using System.Diagnostics;
+using System.Data;
 
 namespace Software_Engineering_Project.Controllers
 {
@@ -161,6 +162,11 @@ namespace Software_Engineering_Project.Controllers
             return View();
         }
 
+        public ActionResult RoomEdit(Models.AdminDashModel dash)
+        {
+            return View(dash);
+        }
+
         [HttpPost]
         public ActionResult UserAddMethod(Models.Users user)
         {
@@ -277,6 +283,87 @@ namespace Software_Engineering_Project.Controllers
 
 
         [HttpPost]
+        public ActionResult UserDeleteMethod(Models.AdminDashModel user)
+        {
+
+            ConnectionStringSettings settings = ConfigurationManager.ConnectionStrings["soft_db"];
+            if (settings == null)
+            {
+                return Content("Something went wrong. Try reloading the page.");
+            }
+
+            string connectionString = settings.ConnectionString;
+
+            string insertString = "DELETE FROM Users WHERE id = " + user.deleteUserID;
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(insertString, connection);
+
+                try
+                {
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
+                }
+
+            }
+            Models.AdminDashModel tempModel = (Models.AdminDashModel)Session["adminDash"];
+
+            int index = tempModel.users.FindIndex(i => i.id == user.deleteUserID);
+            tempModel.users.RemoveAt(index);
+            Session["adminDash"] = tempModel;
+
+            return View("AdminDashboard", (Models.AdminDashModel)Session["adminDash"]);
+        }
+
+
+        [HttpPost]
+        public ActionResult RoomDeleteMethod(Models.AdminDashModel room)
+        {
+
+            ConnectionStringSettings settings = ConfigurationManager.ConnectionStrings["soft_db"];
+            if (settings == null)
+            {
+                return Content("Something went wrong. Try reloading the page.");
+            }
+
+            string connectionString = settings.ConnectionString;
+
+            string insertString = "DELETE FROM Rooms WHERE id = " + room.deleteRoomID;
+            string roomdelete = "DELETE FROM Bookings WHERE roomID = " + room.deleteRoomID;
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(insertString, connection);
+                SqlCommand command2 = new SqlCommand(roomdelete, connection);
+
+                try
+                {
+                    connection.Open();
+                    command2.ExecuteNonQuery();
+                    command.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
+                }
+
+            }
+            Models.AdminDashModel tempModel = (Models.AdminDashModel)Session["adminDash"];
+
+            int index = tempModel.rooms.FindIndex(i => i.id == room.deleteRoomID);
+            tempModel.rooms.RemoveAt(index);
+            Session["adminDash"] = tempModel;
+
+            return View("AdminDashboard", (Models.AdminDashModel)Session["adminDash"]);
+        }
+
+
+        [HttpPost]
         public ActionResult RoomAddMethod(Models.Rooms room)
         {
 
@@ -288,11 +375,24 @@ namespace Software_Engineering_Project.Controllers
 
             string connectionString = settings.ConnectionString;
 
-            string insertString = "INSERT INTO Rooms (id, descriptor, capacity) VALUES (" + room.id + ", '" + room.descriptor + "', " + room.capacity + ")"; // put SELECT commands here
+            //string insertString = "INSERT INTO Rooms (id, descriptor, capacity) VALUES (" + room.id + ", '" + room.descriptor + "', " + room.capacity + ")"; // put SELECT commands here
+
+            string insertString = "INSERT INTO Rooms VALUES (" +
+                "@id, " +
+                "@descriptor, " +
+                "@capacity)";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 SqlCommand command = new SqlCommand(insertString, connection);
+                command.Parameters.Add("@id", SqlDbType.Int);
+                command.Parameters["@id"].Value = room.id;
+
+                command.Parameters.Add("@descriptor", SqlDbType.VarChar);
+                command.Parameters["@descriptor"].Value = room.descriptor;
+
+                command.Parameters.Add("@capacity", SqlDbType.Int);
+                command.Parameters["@capacity"].Value = room.capacity;
 
                 try
                 {
@@ -327,6 +427,62 @@ namespace Software_Engineering_Project.Controllers
                 return View("UserDashboard", new Tuple<Models.Users, Models.Calendar>((Models.Users)Session["user"], (Models.Calendar)Session["calendar"]));
             }
         }
+
+
+        [HttpPost]
+        public ActionResult RoomEditMethod(Models.AdminDashModel room)
+        {
+
+            ConnectionStringSettings settings = ConfigurationManager.ConnectionStrings["soft_db"];
+            if (settings == null)
+            {
+                return Content("Something went wrong. Try reloading the page.");
+            }
+
+            string connectionString = settings.ConnectionString;
+
+            string insertString = "UPDATE Rooms SET";
+
+            if (room.editRoomNew.id != room.editRoom.id)
+            {
+                insertString += " id = '" + room.editRoomNew.id + "'";
+            }
+            if (room.editRoomNew.descriptor != room.editRoom.descriptor)
+            {
+                insertString += " descriptor = '" + room.editRoomNew.descriptor + "'";
+            }
+            if (room.editRoomNew.capacity != room.editRoom.capacity)
+            {
+                insertString += " capacity = " + room.editRoomNew.capacity;
+            }
+            
+            insertString += " WHERE id = " + room.editRoom.id;
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(insertString, connection);
+
+                try
+                {
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
+                }
+
+            }
+            Models.AdminDashModel tempModel = (Models.AdminDashModel)Session["adminDash"];
+
+            int index = tempModel.rooms.FindIndex(i => i.id == room.editRoom.id);
+            tempModel.rooms[index] = room.editRoomNew;
+            Session["adminDash"] = tempModel;
+
+            return View("AdminDashboard", (Models.AdminDashModel)Session["adminDash"]);
+        }
+
+
 
     }
 }

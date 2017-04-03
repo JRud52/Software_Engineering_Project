@@ -70,6 +70,13 @@ th {
     background-color:lightgray;
 }
 
+.editPanel {
+    text-align:center;
+    padding-top: 20px;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
 @media (min-width: 768px){
   .seven-cols .col-md-1,
   .seven-cols .col-sm-1,
