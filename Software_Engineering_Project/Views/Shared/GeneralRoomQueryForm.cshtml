@@ -23,7 +23,7 @@
     using (Html.BeginForm("QueryRoom", "Booking", FormMethod.Post))
     {
         <label>Minimum Capacity</label>
-        @Html.TextBoxFor(model => model.capacity, new { @type = "number", @class = "form-control", @id = "capacity" })
+        @Html.TextBoxFor(model => model.capacity, new { @type = "number", @class = "form-control", @id = "capacity", @min = 1, @max = 75 })
         <br />
 
         @Html.DropDownListFor(model => model.descriptor, new SelectList(Model.descriptors), "Select a Room Type", new { @class = "form-control", @required = "true"})
