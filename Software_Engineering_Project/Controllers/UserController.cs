@@ -170,7 +170,11 @@ namespace Software_Engineering_Project.Controllers
         [HttpPost]
         public ActionResult UserAddMethod(Models.Users user)
         {
-
+			if (Session["adminDash"] == null)
+			{
+				Session.Clear();
+				return RedirectToAction("Index", "Home", null);
+			}
             ConnectionStringSettings settings = ConfigurationManager.ConnectionStrings["soft_db"];
             if (settings == null)
             {
@@ -218,7 +222,11 @@ namespace Software_Engineering_Project.Controllers
         [HttpPost]
         public ActionResult UserEditMethod(Models.AdminDashModel user)
         {
-            
+            if (Session["adminDash"] == null)
+			{
+				Session.Clear();
+				return RedirectToAction("Index", "Home", null);
+			}
             ConnectionStringSettings settings = ConfigurationManager.ConnectionStrings["soft_db"];
             if (settings == null)
             {
@@ -285,7 +293,11 @@ namespace Software_Engineering_Project.Controllers
         [HttpPost]
         public ActionResult UserDeleteMethod(Models.AdminDashModel user)
         {
-
+			if (Session["adminDash"] == null)
+			{
+				Session.Clear();
+				return RedirectToAction("Index", "Home", null);
+			}
             ConnectionStringSettings settings = ConfigurationManager.ConnectionStrings["soft_db"];
             if (settings == null)
             {
@@ -324,7 +336,11 @@ namespace Software_Engineering_Project.Controllers
         [HttpPost]
         public ActionResult RoomDeleteMethod(Models.AdminDashModel room)
         {
-
+			if (Session["adminDash"] == null)
+			{
+				Session.Clear();
+				return RedirectToAction("Index", "Home", null);
+			}
             ConnectionStringSettings settings = ConfigurationManager.ConnectionStrings["soft_db"];
             if (settings == null)
             {
@@ -366,7 +382,11 @@ namespace Software_Engineering_Project.Controllers
         [HttpPost]
         public ActionResult RoomAddMethod(Models.Rooms room)
         {
-
+			if (Session["adminDash"] == null)
+			{
+				Session.Clear();
+				return RedirectToAction("Index", "Home", null);
+			}
             ConnectionStringSettings settings = ConfigurationManager.ConnectionStrings["soft_db"];
             if (settings == null)
             {
@@ -432,7 +452,11 @@ namespace Software_Engineering_Project.Controllers
         [HttpPost]
         public ActionResult RoomEditMethod(Models.AdminDashModel room)
         {
-
+			if (Session["adminDash"] == null)
+			{
+				Session.Clear();
+				return RedirectToAction("Index", "Home", null);
+			}
             ConnectionStringSettings settings = ConfigurationManager.ConnectionStrings["soft_db"];
             if (settings == null)
             {

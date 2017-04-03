@@ -24,7 +24,10 @@ namespace Software_Engineering_Project.Controllers
 
 
         public ActionResult ReleaseRoom(int bookingID) {
-           
+           if (Session["user"] == null){
+				Session.Clear();
+            	return RedirectToAction("Index", "Home", null);
+			}
             ConnectionStringSettings settings = ConfigurationManager.ConnectionStrings["soft_db"];
             string connectionString = settings.ConnectionString;
 
@@ -62,6 +65,11 @@ namespace Software_Engineering_Project.Controllers
 
         public ActionResult ExtendBooking(int bookingID, int roomID, System.DateTime endTime, string description)
         {
+			if (Session["user"] == null){
+				Session.Clear();
+            	return RedirectToAction("Index", "Home", null);
+			}
+				
 
             if (endTime.Hour > 20) {
                 ViewData["error-message"] = "The last booking of the day is 8:30pm";
@@ -372,6 +380,10 @@ namespace Software_Engineering_Project.Controllers
         [HttpPost]
         public ActionResult Book(Models.Bookings booking)
         {
+			if (Session["user"] == null){
+				Session.Clear();
+            	return RedirectToAction("Index", "Home", null);
+			}
             ConnectionStringSettings settings = ConfigurationManager.ConnectionStrings["soft_db"];
             string connectionString = settings.ConnectionString;
 
