@@ -79,15 +79,7 @@
                         <div class="row text-center calendar-day-header" style="background:#337ab7">
                             @String.Format("{0:ddd} ", currDay.DayOfWeek.ToString().Substring(0, 3)) @currDay.Day                             
                         </div>
-                           
-                        @{
-                            currDay = currDay.AddDays(1);
-                            if (currDay.Month > lastDay.Month || currDay.Year > lastDay.Year)
-                            {
-                                end = true;
-                            }
-                        }
-
+                                                   
                         <div class="row">
                             @{
 
@@ -122,6 +114,14 @@
                                 }
                             }
                         </div>
+
+                        @{
+                            currDay = currDay.AddDays(1);
+                            if (currDay.Month > lastDay.Month || currDay.Year > lastDay.Year)
+                            {
+                                end = true;
+                            }
+                        }
                     </div>
                 }
             }
