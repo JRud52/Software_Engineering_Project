@@ -28,11 +28,13 @@ namespace Software_Engineering_Project.Controllers
             ConnectionStringSettings settings = ConfigurationManager.ConnectionStrings["soft_db"];
             string connectionString = settings.ConnectionString;
 
-            string commandString = "DELETE FROM bookings WHERE id='" + bookingID + "'";
-
+            string commandString = "DELETE FROM bookings WHERE id=@bookingID";
+            
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                SqlCommand command = new SqlCommand(commandString, connection);                
+                SqlCommand command = new SqlCommand(commandString, connection);
+                command.Parameters.Add("@bookingID", SqlDbType.Int);
+                command.Parameters["@bookingID"].Value = bookingID;
 
                 try
                 {
@@ -69,11 +71,17 @@ namespace Software_Engineering_Project.Controllers
             ConnectionStringSettings settings = ConfigurationManager.ConnectionStrings["soft_db"];
             string connectionString = settings.ConnectionString;
 
-            string queryString = "SELECT * FROM bookings WHERE roomID>='" + roomID + "' AND startTime='" + endTime + "'";
+            string queryString = "SELECT * FROM bookings WHERE roomID>=@roomID AND startTime=@endTime";
+
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                SqlCommand command = new SqlCommand(queryString, connection);                
+                SqlCommand command = new SqlCommand(queryString, connection);
+                command.Parameters.Add("@roomID", SqlDbType.Int);
+                command.Parameters["@roomID"].Value = roomID;
+
+                command.Parameters.Add("@endTime", SqlDbType.DateTime);
+                command.Parameters["@endTime"].Value = endTime;
 
                 try
                 {
@@ -149,11 +157,18 @@ namespace Software_Engineering_Project.Controllers
             ConnectionStringSettings settings = ConfigurationManager.ConnectionStrings["soft_db"];
             string connectionString = settings.ConnectionString;
 
-            string queryString = "SELECT * FROM Rooms WHERE Capacity>='" + room.capacity + "' AND UPPER(descriptor)='" + room.descriptor.ToUpper() + "'";
+            string queryString = "SELECT * FROM Rooms WHERE Capacity>=@capcity AND UPPER(descriptor)=@descriptor";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 SqlCommand command = new SqlCommand(queryString, connection);
+                command.Parameters.Add("@capcity", SqlDbType.Int);
+                command.Parameters["@capcity"].Value = room.capacity;
+
+                command.Parameters.Add("@descriptor", SqlDbType.VarChar);
+                command.Parameters["@descriptor"].Value = room.descriptor.ToUpper();
+
+
                 Models.RoomSearchModel searchResults = new Models.RoomSearchModel();
 
                 try
@@ -190,76 +205,24 @@ namespace Software_Engineering_Project.Controllers
             }            
         }
 
-        /*
+        
         [HttpPost]
         public ActionResult SelectRoom(Models.Rooms room)
-        {
+        {            
             Models.Calendar cal = new Models.Calendar();
-            cal.roomID = room.id;
             cal.date = System.DateTime.Now;
 
             ConnectionStringSettings settings = ConfigurationManager.ConnectionStrings["soft_db"];
             string connectionString = settings.ConnectionString;
 
-            string queryString = "SELECT * FROM Rooms WHERE ID='" + room.id + "'"; 
+            string queryString = "SELECT * FROM Rooms WHERE ID=@roomID";
+
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 SqlCommand command = new SqlCommand(queryString, connection);
-
-                try
-                {
-                    connection.Open();
-                    SqlDataReader reader = command.ExecuteReader();
-
-                    if (!reader.HasRows) {
-                        return View("SpecificRoomQueryError", new Models.Rooms());
-                    }
-
-                    reader.Close();
-                    queryString = "SELECT * FROM bookings WHERE roomID='" + room.id + "'";
-                    command = new SqlCommand(queryString, connection);
-                    command.ExecuteReader();
-
-                    if (reader.HasRows) {
-                        while (reader.Read())
-                        {
-                            Models.Bookings booking = new Models.Bookings();
-                            booking.id = (int)reader[0];
-                            booking.userID = (int)reader[1];
-                            booking.startTime = (System.DateTime)reader[2];
-                            booking.endTime = (System.DateTime)reader[3];
-                            booking.roomID = (int)reader[4];
-
-                            cal.bookings.Add(booking);
-                        }
-                    }                    
-                   
-                }
-                catch (Exception ex)
-                {
-                    System.Diagnostics.Debug.WriteLine("SQL error");
-                }
-
-                return View("RoomCalendar", cal);
-            }          
-        }
-        */
-
-        public ActionResult SelectRoom(int roomID)
-        {
-            Models.Rooms room = new Models.Rooms();
-            Models.Calendar cal = new Models.Calendar();            
-            cal.date = System.DateTime.Now;
-
-            ConnectionStringSettings settings = ConfigurationManager.ConnectionStrings["soft_db"];
-            string connectionString = settings.ConnectionString;
-
-            string queryString = "SELECT * FROM Rooms WHERE ID='" + roomID + "'";
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                SqlCommand command = new SqlCommand(queryString, connection);
+                command.Parameters.Add("@roomID", SqlDbType.Int);
+                command.Parameters["@roomID"].Value = room.id;
 
                 try
                 {
@@ -269,18 +232,21 @@ namespace Software_Engineering_Project.Controllers
                     if (reader.HasRows)
                     {
                         reader.Read();
-                        room.id = roomID;
+                        room.id = room.id;
                         room.descriptor = (string)reader[1];
                         room.capacity = (int)reader[2];
-                        cal.roomID = roomID;
+                        cal.roomID = room.id;
                     }
-                    else {
+                    else
+                    {
                         return View("SpecificRoomQueryError", new Models.Rooms());
                     }
 
                     reader.Close();
-                    queryString = "SELECT * FROM bookings WHERE roomID='" + roomID + "'";
+                    queryString = "SELECT * FROM bookings WHERE roomID=@roomID";
                     command = new SqlCommand(queryString, connection);
+                    command.Parameters.Add("@roomID", SqlDbType.Int);
+                    command.Parameters["@roomID"].Value = room.id;
                     reader = command.ExecuteReader();
 
                     if (reader.HasRows)
@@ -304,6 +270,76 @@ namespace Software_Engineering_Project.Controllers
                     System.Diagnostics.Debug.WriteLine("SQL error");
                 }
 
+                Session["bookings"] = cal.bookings;
+                return View("RoomCalendar", cal);
+            }
+        }
+        
+
+        public ActionResult SelectRoom(int roomID)
+        {
+            Models.Rooms room = new Models.Rooms();
+            Models.Calendar cal = new Models.Calendar();            
+            cal.date = System.DateTime.Now;
+
+            ConnectionStringSettings settings = ConfigurationManager.ConnectionStrings["soft_db"];
+            string connectionString = settings.ConnectionString;
+
+            string queryString = "SELECT * FROM Rooms WHERE ID=@roomID";
+            
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(queryString, connection);
+                command.Parameters.Add("@roomID", SqlDbType.Int);
+                command.Parameters["@roomID"].Value = roomID;
+
+                try
+                {
+                    connection.Open();
+                    SqlDataReader reader = command.ExecuteReader();
+
+                    if (reader.HasRows)
+                    {
+                        reader.Read();
+                        room.id = roomID;
+                        room.descriptor = (string)reader[1];
+                        room.capacity = (int)reader[2];
+                        cal.roomID = roomID;
+                    }
+                    else {
+                        return View("SpecificRoomQueryError", new Models.Rooms());
+                    }
+
+                    reader.Close();
+                    queryString = "SELECT * FROM bookings WHERE roomID=@roomID";
+                    command = new SqlCommand(queryString, connection);
+                    command.Parameters.Add("@roomID", SqlDbType.Int);
+                    command.Parameters["@roomID"].Value = roomID;
+                    reader = command.ExecuteReader();
+
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            Models.Bookings booking = new Models.Bookings();
+                            booking.id = (int)reader[0];
+                            booking.userID = (int)reader[1];
+                            booking.startTime = (System.DateTime)reader[2];
+                            booking.endTime = (System.DateTime)reader[3];
+                            booking.roomID = (int)reader[4];
+
+                            cal.bookings.Add(booking);
+                        }
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine("SQL error");
+                }
+
+                Session["bookings"] = cal.bookings;
                 return View("RoomCalendar", cal);
             }
         }
@@ -340,14 +376,22 @@ namespace Software_Engineering_Project.Controllers
             string connectionString = settings.ConnectionString;
 
             string queryString = "SELECT * FROM bookings WHERE " + 
-                "roomID='" + booking.roomID + "' AND " +
-                "startTime>='" + booking.startTime + "' AND " +
-                "endTime<='" + booking.endTime + "'";
+                "roomID=@roomID AND " +
+                "startTime>=@startTime AND " +
+                "endTime<=@endTime";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 SqlCommand command = new SqlCommand(queryString, connection);
-                
+                command.Parameters.Add("@roomID", SqlDbType.Int);
+                command.Parameters["@roomID"].Value = booking.roomID;
+
+                command.Parameters.Add("@startTime", SqlDbType.DateTime);
+                command.Parameters["@startTime"].Value = booking.startTime;
+
+                command.Parameters.Add("@endTime", SqlDbType.DateTime);
+                command.Parameters["@endTime"].Value = booking.endTime;
+
                 try
                 {
                     connection.Open();

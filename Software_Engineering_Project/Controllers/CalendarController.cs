@@ -164,9 +164,13 @@ namespace Software_Engineering_Project.Controllers
         public ActionResult GetRoomDaySchedule(System.DateTime date, List<Models.Bookings> bookings, int roomID)
         {
             Models.Calendar cal = new Models.Calendar();
+
+            cal.bookings = (List<Models.Bookings>)Session["bookings"];
+
             cal.date = date;
-            cal.bookings = bookings;
             cal.roomID = roomID;
+
+            Session.Remove("bookings");
 
             return View("DaySchedule", cal);
         }

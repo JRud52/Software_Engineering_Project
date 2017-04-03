@@ -24,7 +24,7 @@
     using (Html.BeginForm("SelectRoom", "Booking", FormMethod.Post))
     {
         <label>Room ID</label>
-            @Html.TextBoxFor(model => model.id, new { @type = "number", @class = "form-control", @id = "room-id" })
+            @Html.TextBoxFor(model => model.id, new { @type = "number", @class = "form-control", @id = "room-id", @required = "true"})
 
             <br />
             <input type="submit" class="w-100 btn btn-primary btn-lg" value="Search" />
