@@ -12,7 +12,7 @@ namespace Software_Engineering_Project.Models
         public IEnumerable<string> descriptors { get; set; }
         public string descriptor { get; set; }
         public Rooms() {
-            capacity = 0;
+            capacity = 1;
             descriptors = new List<String>() { "Bio Lab", "Computer Lab", "Regular Classroom" };
         }
     }
