@@ -201,6 +201,7 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
+    <None Include="Properties\PublishProfiles\RoomBookingSystem - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.1.1.js" />
     <Content Include="Scripts\jquery-3.1.1.min.js" />
@@ -262,7 +263,6 @@
     <Content Include="Views\Shared\LoginError.cshtml" />
     <Content Include="Views\Shared\UserAdd.cshtml" />
     <Content Include="Views\Shared\ExtendBookingError.cshtml" />
-    <Content Include="Views\Shared\UserBookingList.cshtml" />
     <Content Include="Views\Shared\RoomAdd.cshtml" />
     <Content Include="Views\Shared\UserEdit.cshtml" />
   </ItemGroup>
