@@ -1,0 +1,103 @@
+﻿@model Software_Engineering_Project.Models.Calendar
+
+<div class="col-md-12" id="day-schedule">
+    <div class="row">       
+        <div class="col-md-12 text-center">
+            <h2>Room @Model.roomID</h2>
+        </div>        
+    </div>
+
+    <div class="row">        
+        <div class="text-center col-md-12">
+            <h3>@Model.date.ToString("ddd MMMM dd, yyyy")</h3>
+        </div>                
+    </div>
+
+    @{         
+        System.DateTime startTime = new System.DateTime(Model.date.Year, Model.date.Month, Model.date.Day, 8, 30, 0);
+        Software_Engineering_Project.Models.Bookings temp_booking = null;
+    }
+
+    @using Software_Engineering_Project.App_Code
+    @for (int i = 0; i < 9; i++)
+    {
+        bool found = false;
+        if (Model.bookings != null)
+        {
+            foreach (Software_Engineering_Project.Models.Bookings booking in Model.bookings)
+            {
+                if (booking.startTime.Equals(startTime) || booking.startTime.CompareTo(startTime) < 0 && booking.endTime.CompareTo(startTime) > 0)
+                {
+                    temp_booking = booking;
+                    found = true;
+                }
+            }
+        }
+
+        if (found)
+        {
+            <div class="col-md-12 text-center time-slot-booked">               
+                <h4>@startTime.ToString("h:mm tt")</h4>
+                
+                @if (temp_booking.description != null)
+                {
+                    <p>@temp_booking.description</p>
+                }               
+            </div>
+        }
+        else
+        {
+
+            if (Session["user"] != null && startTime.CompareTo(System.DateTime.Now) > 0)
+            {
+                /*
+                using (Html.BeginForm("SelectTime", "Booking", FormMethod.Post))
+                {
+                    @Html.HiddenFor(model => model.date)
+                    @Html.HiddenFor(model => model.bookings)
+                    @Html.HiddenFor(model => model.roomID)
+                    <input type="submit" class="col-md-12 text-center time-slot-empty" value="@startTime.ToString("h:mm tt")" />
+                }
+                */
+
+                <a class="ajax-raw-action-link" href="@Url.Action("SelectTime", "Booking", new { date = startTime, bookings = Model.bookings, roomID = Model.roomID })">
+                    <div class="col-md-12 text-center time-slot-empty">
+                        <h4>
+                            @startTime.ToString("h:mm tt")
+                        </h4>
+                    </div>
+                </a>
+
+                /*
+                @Ajax.RawActionLink(
+                    string.Format("<div class=\"col-md-12 text-center time-slot-empty\"><h4>" +
+                        startTime.ToString("h:mm tt") +
+                        "</h4></div>"),
+                    "SelectTime",
+                    "Booking",
+                    new { date = startTime, bookings = Model.bookings, roomID = Model.roomID },
+                    new AjaxOptions
+                    {
+                        HttpMethod = "GET",
+                        InsertionMode = InsertionMode.ReplaceWith,
+                        UpdateTargetId = "day-schedule",
+                        OnComplete = null
+                    },
+                    new
+                    {
+                        @class = "ajax-raw-action-link"
+                    }
+                )
+                */
+            }
+            else
+            {
+                <div class="col-md-12 text-center time-slot-empty">
+                    <h4>@startTime.ToString("h:mm tt")</h4>                
+                </div>                    
+            }
+        }
+
+        startTime = startTime.AddHours(1.5);
+    }
+</div>

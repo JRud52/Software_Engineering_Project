@@ -1,0 +1,32 @@
+﻿@model Software_Engineering_Project.Models.AdminDashModel
+
+<div class="editPanel">
+    <h2>Edit Room</h2>
+    @{
+        using (Html.BeginForm("RoomEditMethod", "User", FormMethod.Post, new { @class = "login" }))
+        {
+
+            @Html.HiddenFor(m => m.editRoom.id, new { Value = Model.editRoom.id })
+            @Html.HiddenFor(m => m.editRoom.descriptor, new { Value = Model.editRoom.descriptor })
+            @Html.HiddenFor(m => m.editRoom.capacity, new { Value = Model.editRoom.capacity })
+
+            @Html.TextBoxFor(m => m.editRoomNew.id, new { @type = "number", @class = "form-control", @id = "user-name", @placeholder = "ID", Value = Model.editRoom.id })
+            <br />
+            @Html.TextBoxFor(m => m.editRoomNew.descriptor, new { @type = "text", @class = "form-control", @id = "user-email", @placeholder = "Description", Value = Model.editRoom.descriptor })
+            <br />
+            @Html.TextBoxFor(m => m.editRoomNew.capacity, new { @type = "number", @class = "form-control", @id = "user-pass", @placeholder = "Capacity", Value = Model.editRoom.capacity })
+            <br />
+            <input type="submit" class="w-100 btn btn-primary btn-lg" value="Edit Room" />
+        }
+
+        using (Html.BeginForm("RoomDeleteMethod", "User", FormMethod.Post, new { @class = "login" }))
+        {
+
+            @Html.HiddenFor(m => m.deleteRoomID, new { Value = Model.editRoom.id })
+
+            <br/>
+            <input type="submit" class="w-100 btn btn-danger btn-lg" value="Delete Room" />
+
+        }
+    }
+</div>

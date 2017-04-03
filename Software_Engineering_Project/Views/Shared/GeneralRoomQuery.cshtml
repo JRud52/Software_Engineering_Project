@@ -1,0 +1,29 @@
+﻿@model Software_Engineering_Project.Models.Rooms
+
+<div id="room-query-form">
+
+    <div class="row">
+        <div class="editPanel">
+            <h3 class="text-center">Choose a Room</h3>
+            @Html.Partial("GeneralRoomQueryForm")
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div id="room-search-results">
+
+            </div>
+        </div>
+    </div>
+
+    <!--
+    <div class="row">
+        <div class="col-md-12">
+            Html.ActionLink("Book", "Book", "Booking", new { room = Model }, new { class = "w-100 btn btn-primary btn-lg" })
+        </div>
+    </div>
+        -->
+</div>
+
+

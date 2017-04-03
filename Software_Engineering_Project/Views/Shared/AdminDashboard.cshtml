@@ -1,0 +1,89 @@
+﻿@model Software_Engineering_Project.Models.AdminDashModel
+
+<div class="row" id="app-content">
+    <div class="col-md-12">
+        <h2>Admin Dashboard</h2>
+        <h4>Hello @Model.name</h4>
+        <br />
+    </div>
+
+    <div class="col-md-7">
+        
+        <h5>Users</h5>
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>EMAIL</th>
+                <th>NAME</th>
+                <th>PRIVILAGE</th>
+                <th>EDIT</th>
+            </tr>
+            @foreach (var user in Model.users)
+            {
+                if (user.privilage < 3)
+                {
+                <tr>
+                    <td>@user.id</td>
+                    <td>@user.email</td>
+                    <td>@user.name</td>
+                    <td>@user.privilage</td>
+                    <td>
+                        @using (Html.BeginForm("UserEdit", "User", FormMethod.Post))
+                        {
+                        @Html.HiddenFor(m => m.editUser.id, new { Value = @user.id })
+                        @Html.HiddenFor(m => m.editUser.name, new { Value = @user.name })
+                        @Html.HiddenFor(m => m.editUser.email, new { Value = @user.email })
+                        @Html.HiddenFor(m => m.editUser.privilage, new { Value = @user.privilage })
+                        @Html.HiddenFor(m => m.editUser.hash, new { Value = @user.hash })
+
+                        <input type="submit" class="btn btn-primary center-block" value="+" />
+                        }
+                    </td>
+                </tr>
+                }
+            }
+
+        </table>
+
+        <br/>
+        <input type="button" class="form-control showButton" value="Add user" onclick="location.href='@Url.Action("UserAdd", "User")'" />
+        <br />
+
+    </div>
+
+    <div class="col-md-5">
+        <h5>Rooms</h5>
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>DESCRIPTION</th>
+                <th>CAPACITY</th>
+                <th>EDIT</th>
+            </tr>
+            @foreach (var room in Model.rooms)
+            {
+                    <tr>
+                        <td>@room.id</td>
+                        <td>@room.descriptor</td>
+                        <td>@room.capacity</td>
+                        <td>
+                            @using (Html.BeginForm("RoomEdit", "User", FormMethod.Post))
+                            {
+                                @Html.HiddenFor(m => m.editRoom.id, new { Value = @room.id })
+                                @Html.HiddenFor(m => m.editRoom.descriptor, new { Value = @room.descriptor })
+                                @Html.HiddenFor(m => m.editRoom.capacity, new { Value = @room.capacity })
+
+                                <input type="submit" class="btn btn-primary center-block" value="+" />
+                            }
+                        </td>
+                    </tr>
+            }
+
+        </table>
+
+        <br />
+        <input type="button" class="form-control showButton" value="Add room" onclick="location.href='@Url.Action("RoomAdd", "User")'" />
+        <br />
+    </div>
+
+</div>

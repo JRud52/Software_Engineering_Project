@@ -1,0 +1,19 @@
+﻿@model Software_Engineering_Project.Models.Users
+
+<div class="editPanel">
+    <h2>Add User</h2>
+    @{ 
+        using (Html.BeginForm("UserAddMethod", "User", FormMethod.Post, new { @class = "login" }))
+        {
+            @Html.TextBoxFor(m => m.name, new { @type = "text", @class = "form-control", @id = "user-name", @placeholder = "Name", @maxlength = "50" })
+            <br />
+            @Html.TextBoxFor(m => m.email, new { @type = "email", @class = "form-control", @id = "user-email", @placeholder = "Email", @maxlength = "50" })
+            <br />
+            @Html.TextBoxFor(m => m.hash, new { @type = "password", @class = "form-control", @id = "user-pass", @placeholder = "Password" })
+            <br />
+            @Html.TextBoxFor(m => m.privilage, new { @type = "number", @class = "form-control", @id = "user-priv", @placeholder = "Privilage(1 - user, 2 - faculty)", @min = "1", @max = "2" })
+            <br />
+            <input type="submit" class="w-100 btn btn-primary btn-lg" value="Add User" />
+        }
+    }
+</div>

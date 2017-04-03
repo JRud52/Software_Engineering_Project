@@ -1,0 +1,17 @@
+﻿@model Software_Engineering_Project.Models.Rooms
+
+<div class="editPanel">
+    <h2>Add Room</h2>
+    @{
+        using (Html.BeginForm("RoomAddMethod", "User", FormMethod.Post, new { @class = "login" }))
+        {
+            @Html.TextBoxFor(m => m.id, new { @type = "number", @class = "form-control", @id = "room-id", @placeholder = "Room Number" })
+            <br />
+            @Html.TextBoxFor(m => m.descriptor, new { @type = "text", @class = "form-control", @id = "room-descriptor", @placeholder = "Room Description" })
+            <br />
+            @Html.TextBoxFor(m => m.capacity, new { @type = "number", @class = "form-control", @id = "room-capacity", @placeholder = "Room Capacity" })
+            <br />
+            <input type="submit" class="w-100 btn btn-primary btn-lg" value="Add Room" />
+        }
+    }
+</div>

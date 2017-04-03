@@ -1,0 +1,36 @@
+﻿@model Software_Engineering_Project.Models.Rooms
+
+<h4>
+    Know which room your looking for?<br />
+    @using Software_Engineering_Project.App_Code
+    @Ajax.RawActionLink(
+                    string.Format("<button class=\"btn btn-primary btn-xs\">Find Specific Room</button>"),
+                    "SpecificRoomSearch",
+                    "Booking",
+                    new AjaxOptions
+                    {
+                        HttpMethod = "GET",
+                        InsertionMode = InsertionMode.ReplaceWith,
+                        UpdateTargetId = "room-query-form",
+                        OnComplete = null
+                    }
+                )
+</h4>
+
+<br />
+
+@{
+    using (Html.BeginForm("QueryRoom", "Booking", FormMethod.Post))
+    {
+        <label>Minimum Capacity</label>
+        @Html.TextBoxFor(model => model.capacity, new { @type = "number", @class = "form-control", @id = "capacity" })
+        <br />
+
+        @Html.DropDownListFor(model => model.descriptor, new SelectList(Model.descriptors), "Select a Room Type", new { @class = "form-control", @required = "true"})
+
+        <br />
+        <input type="submit" class="w-100 btn btn-primary btn-lg" value="Search" />
+    }
+}
+
+<br />

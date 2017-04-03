@@ -1,0 +1,27 @@
+﻿@model Software_Engineering_Project.Models.Users
+<div class="row">
+    <div class="col-md-12">
+
+        <div class="text-center" id="login-form">
+
+            <h3>Book A Room</h3>
+            <h5>You need to login to book rooms. <br />Enter your login info below.</h5>
+            <br />
+            
+            <div class="card">
+                <div class="card-block">
+                    @{
+                        using (Html.BeginForm("Login", "User", FormMethod.Post, new { @class = "login" }))
+                        {
+                            @Html.TextBoxFor(m => m.email, new { @type = "email", @class = "form-control", @id = "user-email", @placeholder = "Email" })
+                            <br />
+                            @Html.TextBoxFor(m => m.hash, new { @type = "password", @class = "form-control", @id = "user-pass", @placeholder = "Password" })
+                            <br />
+                            <input type="submit" class="w-100 btn btn-primary btn-lg" value="Login" />
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

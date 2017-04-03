@@ -16,9 +16,159 @@
     white-space: normal;
 }
 
-/* Set width on the form input elements since they're 100% wide by default */
-input,
-select,
-textarea {
-    max-width: 280px;
+
+.calendar-day {
+    height: 100px;
+}
+
+.calendar-day-header, .calendar-day-header a, .calendar-day-header a:hover, .calendar-day-header input{
+    text-decoration: none; 
+    color: white;
+}
+
+.calendar-day-header input {
+    -webkit-appearance: inherit;
+    background: #337ab7;
+    border: none;
+    padding: 0;
+    margin: 0;
+}
+
+.calendar-day-header input:hover {
+    color: white;
+    background: #222222;    
+    height: 50px;
+}
+
+.time-slot-empty {
+    height: 50px;
+    margin: 2px;
+    background: green;
+}
+
+.time-slot-booked {
+    margin: 2px;
+    background: red;
+    height: 50px;
+}
+
+table{
+    width:100%;
+}
+
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 10px;
+}
+
+th {
+    text-align: center;
+    background-color:lightgray;
+}
+
+.editPanel {
+    text-align:center;
+    padding-top: 20px;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+@media (min-width: 768px){
+  .seven-cols .col-md-1,
+  .seven-cols .col-sm-1,
+  .seven-cols .col-lg-1  {
+    width: 100%;    
+  }
+}
+
+@media (min-width: 992px) {
+  .seven-cols .col-md-1,
+  .seven-cols .col-sm-1,
+  .seven-cols .col-lg-1 {
+    width: 14.285714285714285714285714285714%;    
+  }
+}
+
+
+@media (min-width: 1200px) {
+  .seven-cols .col-md-1,
+  .seven-cols .col-sm-1,
+  .seven-cols .col-lg-1 {
+    width: 14.285714285714285714285714285714%;
+  }
+}
+
+.card {
+    position: relative;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    background-color: #fff;
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: .25rem;
+}
+
+.card-block {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1 1 auto;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    padding: 1.25rem;
+}
+
+.align-middle {
+    vertical-align: middle!important;
+}
+
+.w-100 {
+    width: 100% !important;
+}
+
+.error-message {
+    color: red;
+}
+
+.ajax-raw-action-link .calendar-day-header {
+   background: #337ab7;
+}
+
+.ajax-raw-action-link:hover {
+    text-decoration: none;
+}
+
+.ajax-raw-action-link .calendar-day-header:hover {    
+    background: #222222;
+}
+
+.ajax-raw-action-link .time-slot-booked,
+.ajax-raw-action-link .time-slot-empty {
+    color: black;
+}
+
+.ajax-raw-action-link .time-slot-empty:hover {
+    color: white;
+    background: #222222;
+}
+
+a:visited {
+    text-decoration: none;
+}
+
+.logout-container {
+    float: right;    
+}
+
+.booking-list {
+    max-height: 400px;
+    overflow-y: scroll;
 }
