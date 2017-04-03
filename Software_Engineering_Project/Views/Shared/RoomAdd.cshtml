@@ -1,6 +1,7 @@
 ﻿@model Software_Engineering_Project.Models.Rooms
 
-<div>
+<div class="editPanel">
+    <h2>Add Room</h2>
     @{
         using (Html.BeginForm("RoomAddMethod", "User", FormMethod.Post, new { @class = "login" }))
         {

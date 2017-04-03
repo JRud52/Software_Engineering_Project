@@ -36,7 +36,7 @@
                         @Html.HiddenFor(m => m.editUser.privilage, new { Value = @user.privilage })
                         @Html.HiddenFor(m => m.editUser.hash, new { Value = @user.hash })
 
-                        <input type="submit" class="btn btn-primary" value="+" />
+                        <input type="submit" class="btn btn-primary center-block" value="+" />
                         }
                     </td>
                 </tr>
@@ -67,7 +67,14 @@
                         <td>@room.descriptor</td>
                         <td>@room.capacity</td>
                         <td>
-                            <button class="form-control showButton"></button>
+                            @using (Html.BeginForm("RoomEdit", "User", FormMethod.Post))
+                            {
+                                @Html.HiddenFor(m => m.editRoom.id, new { Value = @room.id })
+                                @Html.HiddenFor(m => m.editRoom.descriptor, new { Value = @room.descriptor })
+                                @Html.HiddenFor(m => m.editRoom.capacity, new { Value = @room.capacity })
+
+                                <input type="submit" class="btn btn-primary center-block" value="+" />
+                            }
                         </td>
                     </tr>
             }

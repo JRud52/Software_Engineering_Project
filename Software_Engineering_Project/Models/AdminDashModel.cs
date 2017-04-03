@@ -15,5 +15,9 @@ namespace Software_Engineering_Project.Models
         public List<Rooms> rooms { get; set; }
         public Users editUser { get; set; }
         public Users editUserNew { get; set; }
+        public Rooms editRoom { get; set; }
+        public Rooms editRoomNew { get; set; }
+        public int deleteUserID { get; set; }
+        public int deleteRoomID { get; set; }
     }
 }

@@ -265,6 +265,7 @@
     <Content Include="Views\Shared\ExtendBookingError.cshtml" />
     <Content Include="Views\Shared\RoomAdd.cshtml" />
     <Content Include="Views\Shared\UserEdit.cshtml" />
+    <Content Include="Views\Shared\RoomEdit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

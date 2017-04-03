@@ -1,6 +1,7 @@
 ﻿@model Software_Engineering_Project.Models.Users
 
-<div>
+<div class="editPanel">
+    <h2>Add User</h2>
     @{ 
         using (Html.BeginForm("UserAddMethod", "User", FormMethod.Post, new { @class = "login" }))
         {
